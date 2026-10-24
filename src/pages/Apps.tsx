@@ -13,7 +13,7 @@ export default function Apps() {
   return (
     <>
       <div className="page-head">
-        <div className="micro">Apps</div>
+        <p className="launch-boundary">IN DEVELOPMENT · The following describes the intended product. This website provides interactive previews; it does not execute agents or enforce runtime tool permissions.</p><div className="micro">Apps</div>
         <h1>The Brigade App: a crew that shows its work.</h1>
         <p className="lede">
           One local-first workspace where a brigade of agents plans, builds
@@ -22,7 +22,7 @@ export default function Apps() {
         </p>
         <p style={{ marginTop: "1.2rem" }}>
           <span className="pill pill-roadmap">v1 · In build</span>{" "}
-          <span className="pill pill-verified">v1 is free</span>
+          <span className="pill pill-roadmap">v1 pricing planned</span>
         </p>
       </div>
 
@@ -69,8 +69,7 @@ export default function Apps() {
         <h2>Downloads</h2>
         <p>
           Native builds ship with v1. Until they land, the honest button is
-          the launch list — one email when the builds are ready, and nothing
-          before.
+          a profile — launch notifications are not enabled yet.
         </p>
         <div className="grid3" style={{ marginTop: "1.2rem" }}>
           {["macOS", "Linux", "Windows"].map((os) => (
@@ -78,7 +77,7 @@ export default function Apps() {
               <h3>{os}</h3>
               <p>Brigade App v1, native. Local models, local ledger.</p>
               <p><span className="pill pill-roadmap">In build</span></p>
-              <Link className="btn" to="/signup">Notify me at launch</Link>
+              <Link className="btn" to="/signup">Create a profile</Link>
             </div>
           ))}
         </div>
@@ -92,7 +91,7 @@ export default function Apps() {
             agentic harness: a builder lane takes the first pass, a
             contributor lane reviews, and deterministic judges decide when a
             step is done — with the receipt to prove it. MadMind v0.1.0 is
-            live on our bench today, behind a single front door: <i>"What are
+            in development, behind a single front door: <i>"What are
             we designing today?"</i>
           </p>
           <p style={{ marginTop: "1rem" }}>

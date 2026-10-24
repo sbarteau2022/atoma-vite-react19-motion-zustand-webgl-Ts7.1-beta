@@ -57,7 +57,7 @@ export default function Home() {
           Research, manuscripts, code examples, and plain-language explanations in one desk.
           Search source-linked literature, inspect the paper, then work through an idea with an AI guide.
         </SectionHead>
-        <div className="head-actions"><Link className="btn btn-white" to="/research-hub">Open Research Hub <span>↗</span></Link><span className="research-access-note">API access requires a configured key</span></div>
+        <div className="head-actions"><Link className="btn btn-white" to="/research-hub">Open Research Hub <span>↗</span></Link><span className="research-access-note">Curated library · source links attached</span></div>
         <ResearchPreview />
         </div>
       </section>
@@ -78,24 +78,24 @@ export default function Home() {
 
         <div className="log-list">
           <div className="log-row">
-            <div className="ldate">Jun 12</div>
+            <div className="ldate">Oct 24</div>
             <div>
-              <h3>Atoma Core v0.9.4 — Metal &amp; WebGPU acceleration</h3>
-              <p>Up to 2.4x faster local inference on Apple Silicon.</p>
+              <h3>Brigade — interactive workspace preview</h3>
+              <p>Explore the guided run timeline, graph, code, and receipts. Runtime execution remains in development.</p>
             </div>
           </div>
           <div className="log-row">
-            <div className="ldate">Jun 05</div>
+            <div className="ldate">Oct 24</div>
             <div>
-              <h3>Research Hub API — public beta</h3>
-              <p>Search, stream and cite 400k+ AI preprints.</p>
+              <h3>Research Hub — curated source library</h3>
+              <p>Read source-linked editorial notes and ask the AI companion. A small curated catalog, with ingestion still planned.</p>
             </div>
           </div>
           <div className="log-row">
-            <div className="ldate">May 28</div>
+            <div className="ldate">In build</div>
             <div>
-              <h3>Skills.md spec 1.0</h3>
-              <p>A portable, versioned format for agent capabilities.</p>
+              <h3>Composable tools and harness design</h3>
+              <p>Typed tools, explicit authority, and inspectable evidence are the build direction.</p>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function Home() {
           CTA Panel: Luminous panel on ellipse glow
           ========================================================================= */}
       <div className="cta-band">
-        <div className="cta-brand-lockup"><img src="/atoma-mark.svg" alt=""/><span><b>ATOMA</b><small>ENGINEERING LABS</small></span></div>
+        <div className="cta-brand-lockup"><img src="/atoma-atom.png" alt=""/><span><b>ATOMA</b><small>ENGINEERING LABS</small></span></div>
         <h2>Solo by choice.<br/><em>Built to go further.</em></h2>
         <p>Put a research-grade engineering harness behind your next ambitious build.</p>
         <div className="cta-actions">

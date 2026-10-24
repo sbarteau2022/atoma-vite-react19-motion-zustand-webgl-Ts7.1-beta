@@ -25,3 +25,9 @@ dist-ssr
 
 # Playwright test traces
 .playwright-mcp/
+
+.wrangler/
+.dev.vars
+.env*
+playwright-report/
+test-results/

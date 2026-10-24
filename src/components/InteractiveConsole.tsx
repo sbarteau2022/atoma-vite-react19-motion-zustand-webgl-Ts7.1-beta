@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useBrigadeStore, PipelineStep } from "../store/useBrigadeStore.ts";
-import { Play, Pause, CheckCircle2, ShieldCheck, Terminal, Cpu, HardDrive, Zap, Layers, FileText } from "lucide-react";
+import { Play, Pause, CheckCircle2 } from "lucide-react";
 
 export function InteractiveConsole() {
   const {
@@ -285,7 +285,7 @@ export function InteractiveConsole() {
                             Pipeline Flow · Click a node to inspect
                           </div>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            {activeRun.steps.map((step, idx) => {
+                            {activeRun.steps.map((step) => {
                               const isSelected = selectedStepId === step.id;
                               const isVerified = step.status === "verified";
                               const isRunning = step.status === "running";

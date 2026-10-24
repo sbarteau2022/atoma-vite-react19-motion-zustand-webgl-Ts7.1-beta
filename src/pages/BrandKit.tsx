@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, Copy, MoveUpRight } from "lucide-react";
 
 const marks = [
-  { id: "core", name: "Core / Orbital lattice", src: "/atoma-mark.svg", note: "Systems thinking, connected evidence, controlled motion." },
+  { id: "core", name: "Core / Orbital lattice", src: "/atoma-atom.png", note: "Systems thinking, connected evidence, controlled motion." },
   { id: "orbit", name: "Orbit / Multi-model mind", src: "/atoma-mark-orbit.svg", note: "A living system of models around one harness." },
   { id: "matrix", name: "Matrix / Evidence graph", src: "/atoma-mark-matrix.svg", note: "Structured engineering, measurable state, durable records." },
   { id: "sigil", name: "Sigil / Engineering A", src: "/atoma-mark-sigil.svg", note: "A direct monogram built for the Atoma Engineering Labs name." },

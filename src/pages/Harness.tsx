@@ -11,7 +11,7 @@ export default function Harness() {
   return (
     <>
       <div className="page-head">
-        <div className="micro">Harness · MadMind</div>
+        <p className="launch-boundary">IN DEVELOPMENT · The following describes the intended product. This website provides interactive previews; it does not execute agents or enforce runtime tool permissions.</p><div className="micro">Harness · MadMind</div>
         <h1>Two lanes. One judge. No black box.</h1>
         <p className="lede">
           MadMind is the dual agentic harness the Brigade App builds with: a
@@ -20,7 +20,7 @@ export default function Harness() {
           the lab, made into a product surface.
         </p>
         <p style={{ marginTop: "1.2rem" }}>
-          <span className="pill pill-verified">MadMind v0.1.0 · Live on the bench</span>
+          <span className="pill pill-roadmap">MadMind · Harness design in development</span>
         </p>
       </div>
 
@@ -36,7 +36,7 @@ export default function Harness() {
           </div>
           <div className="panel">
             <span className="fig">Lane 02 — Contributor</span>
-            <h3>Muse Spark 1.3, gated</h3>
+            <h3>Frontier contributor, opt-in</h3>
             <p>The contributor lane is the second pair of eyes: review,
             counter-argument and polish from a frontier model — behind an
             explicit gate, so nothing leaves the machine unless that lane is

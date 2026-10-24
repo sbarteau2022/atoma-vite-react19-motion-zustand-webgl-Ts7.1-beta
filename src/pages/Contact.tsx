@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [busy,setBusy]=useState(false), [error,setError]=useState("");
   return (
     <>
       <div className="page-head">
@@ -20,7 +21,7 @@ export default function Contact() {
           <form
             className="shell"
             style={{ maxWidth: "none", display: "flex", flexDirection: "column" }}
-            onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+            onSubmit={async (e) => { e.preventDefault(); if(busy)return;const data=Object.fromEntries(new FormData(e.currentTarget));setBusy(true);setError("");try{const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const d=await r.json();if(!r.ok)throw Error(d.error);setSent(true);}catch(err){setError(err instanceof Error?err.message:"Unable to send")}finally{setBusy(false)}}}
           >
             <label>Your name
               <input name="name" autoComplete="name" required />
@@ -40,9 +41,10 @@ export default function Contact() {
             <label>Message
               <textarea name="message" rows={7} required />
             </label>
-            <button className="btn btn-primary" type="submit">Send</button>
+            <button className="btn btn-primary" type="submit" disabled={busy||sent}>{busy?"Sending…":"Send"}</button>
+            {error&&<p role="alert">{error}</p>}
             {sent && (
-              <p>Received. We read everything — replies when there's something real to say.</p>
+              <p>Saved for the builder to review. Email notifications are not enabled.</p>
             )}
           </form>
 

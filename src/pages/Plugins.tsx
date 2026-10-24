@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 
 const RULES = [
   ["Typed, end to end", "Every tool is a schema: named inputs, named outputs, no stringly-typed surprises. The harness validates calls before they run and results before they are believed."],
@@ -11,7 +10,7 @@ export default function Plugins() {
   return (
     <>
       <div className="page-head">
-        <div className="micro">Plug-ins · MCP Servers</div>
+        <p className="launch-boundary">IN DEVELOPMENT · The following describes the intended product. This website provides interactive previews; it does not execute agents or enforce runtime tool permissions.</p><div className="micro">Plug-ins · MCP Servers</div>
         <h1>Tools the brigade may touch — on the record.</h1>
         <p className="lede">
           The Model Context Protocol is how agents reach tools. Our servers
@@ -23,7 +22,7 @@ export default function Plugins() {
         </p>
       </div>
 
-      <section className="prose-section">
+      <section className="prose-section" id="custom-servers">
         <h2>The servers</h2>
         <div className="panel" style={{ marginTop: "1.2rem" }}>
           <table className="tele">

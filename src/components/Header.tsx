@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 export function Header() {
-  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -15,11 +14,6 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Close mobile drawer on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
 
   const navLinks = [
     { to: "/mission", label: "Mission" },
@@ -46,7 +40,7 @@ export function Header() {
             className="group flex items-center gap-2.5 font-mono text-xs uppercase tracking-widest text-[#e9eded] transition-colors"
           >
             <div className="relative flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-transform duration-300 group-hover:scale-105 group-hover:border-[#4fe3ea]/50">
-              <img src="/atoma-mark.svg" alt="Atoma Mark" className="h-4 w-4" />
+              <img src="/atoma-atom.png" alt="Atoma Mark" className="h-4 w-4" />
             </div>
             <span className="font-medium tracking-[0.2em]">
               ATOMA&nbsp;<b className="text-[#4fe3ea] font-semibold">LABS</b>
@@ -61,6 +55,7 @@ export function Header() {
                 <Link
                   key={link.to}
                   to={link.to}
+                      onClick={()=>setMobileOpen(false)}
                   className={`relative rounded-full px-3 py-1.5 transition-colors duration-200 ${
                     isActive ? "text-white font-medium" : "text-[#8b9595] hover:text-[#e9eded]"
                   }`}
@@ -143,6 +138,7 @@ export function Header() {
                   >
                     <Link
                       to={link.to}
+                      onClick={()=>setMobileOpen(false)}
                       className="block text-lg font-medium text-[#e9eded] hover:text-[#4fe3ea] py-1 border-b border-white/5"
                     >
                       {link.label}

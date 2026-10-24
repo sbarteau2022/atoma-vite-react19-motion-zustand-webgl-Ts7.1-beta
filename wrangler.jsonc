@@ -1,0 +1,22 @@
+{
+  "name": "atoma-labs-site",
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2026-10-24",
+  "ai": {
+    "binding": "AI"
+  },
+  "d1_databases": [
+    {
+      "binding": "PROFILES",
+      "database_name": "atoma-user-profiles",
+      "database_id": "3e38294b-64b3-4b09-b1a8-2e472ba07aa0",
+      "migrations_dir": "migrations/profiles"
+    },
+    {
+      "binding": "RESEARCH",
+      "database_name": "atoma-research-hub",
+      "database_id": "dce06c8f-9ab6-4bd6-9c18-ed5c3a1ea78b",
+      "migrations_dir": "migrations/research"
+    }
+  ]
+}

@@ -1,140 +1,267 @@
-# Atoma Engineering — marketing site & funnel
+---
+title: "Atoma website — Cloudflare launch"
+document_type: "implementation"
+version: "1.0.0"
+date: "2026-10-24T21:20:00Z"
+implementation_date: "2026-10-24T21:14:00Z"
+author: "sbarteau2022 / Codex"
+reviewers: []
+status: "review"
+related_files:
+  - path: ".github/workflows/deploy.yml"
+    lines: "1-50"
+    role: "config"
+  - path: ".gitignore"
+    lines: "1-33"
+    role: "supporting"
+  - path: "DESIGN.md"
+    lines: "1-201"
+    role: "supporting"
+  - path: "README.md"
+    lines: "1-267"
+    role: "supporting"
+  - path: "docs/LAUNCH_AUDIT.md"
+    lines: "1-316"
+    role: "supporting"
+  - path: "functions/api/[[path]].js"
+    lines: "1-108"
+    role: "supporting"
+  - path: "index.html"
+    lines: "1-21"
+    role: "supporting"
+  - path: "migrations/profiles/0001_initial.sql"
+    lines: "1-5"
+    role: "supporting"
+  - path: "migrations/research/0001_initial.sql"
+    lines: "1-4"
+    role: "supporting"
+  - path: "output/audit-animated-desktop.png"
+    lines: "0"
+    role: "supporting"
+  - path: "output/audit-desktop.png"
+    lines: "0"
+    role: "supporting"
+  - path: "output/audit-mobile.png"
+    lines: "0"
+    role: "supporting"
+  - path: "output/branding/atoma-orthogonal-atom-v1.png"
+    lines: "0"
+    role: "supporting"
+  - path: "package-lock.json"
+    lines: "1-4350"
+    role: "config"
+  - path: "package.json"
+    lines: "1-48"
+    role: "config"
+  - path: "playwright.config.ts"
+    lines: "1-2"
+    role: "supporting"
+  - path: "public/_headers"
+    lines: "1-8"
+    role: "supporting"
+  - path: "public/atoma-atom.png"
+    lines: "0"
+    role: "supporting"
+  - path: "public/robots.txt"
+    lines: "1-3"
+    role: "supporting"
+  - path: "public/sitemap.xml"
+    lines: "1-1"
+    role: "supporting"
+  - path: "src/App.tsx"
+    lines: "1-135"
+    role: "supporting"
+  - path: "src/components/AiWidget.tsx"
+    lines: "1-12"
+    role: "supporting"
+  - path: "src/components/Header.tsx"
+    lines: "1-170"
+    role: "supporting"
+  - path: "src/components/InteractiveApiSandbox.tsx"
+    lines: "1-177"
+    role: "supporting"
+  - path: "src/components/InteractiveConsole.tsx"
+    lines: "1-645"
+    role: "supporting"
+  - path: "src/components/InteractiveHero.tsx"
+    lines: "1-97"
+    role: "supporting"
+  - path: "src/components/OrbitalScene.tsx"
+    lines: "1-28"
+    role: "supporting"
+  - path: "src/index.css"
+    lines: "1-987"
+    role: "supporting"
+  - path: "src/pages/Apps.tsx"
+    lines: "1-105"
+    role: "supporting"
+  - path: "src/pages/Auth.tsx"
+    lines: "1-11"
+    role: "supporting"
+  - path: "src/pages/BrandKit.tsx"
+    lines: "1-33"
+    role: "supporting"
+  - path: "src/pages/Contact.tsx"
+    lines: "1-81"
+    role: "supporting"
+  - path: "src/pages/Harness.tsx"
+    lines: "1-119"
+    role: "supporting"
+  - path: "src/pages/Home.tsx"
+    lines: "1-118"
+    role: "supporting"
+  - path: "src/pages/Plugins.tsx"
+    lines: "1-72"
+    role: "supporting"
+  - path: "src/pages/ResearchHub.tsx"
+    lines: "1-22"
+    role: "supporting"
+  - path: "src/pages/Tooling.tsx"
+    lines: "1-74"
+    role: "supporting"
+  - path: "tests/api.test.mjs"
+    lines: "1-19"
+    role: "test"
+  - path: "tests/browser/site.spec.ts"
+    lines: "1-7"
+    role: "test"
+  - path: "wrangler.jsonc"
+    lines: "1-22"
+    role: "config"
+related_documents: ["DESIGN.md", "docs/LAUNCH_AUDIT.md"]
+related_issues: []
+tags: ["website", "cloudflare", "launch"]
+---
+# Atoma Engineering Labs
 
-## Brand UI kit and Brigade workspace
+The public front door for Atoma: an interactive Brigade preview, engineering
+principles, source-linked research, and an AI guide. React 19, Vite, TypeScript,
+Motion, GSAP, Zustand, Three.js and React Three Fiber drive the interface.
+Cloudflare Pages Functions, Workers AI, and two D1 databases provide the backend.
 
-The visual foundation lives in `src/index.css` as shared Atoma tokens and
-composable surface, status, and typography patterns. The `/brigade` route is a
-high-fidelity workspace scaffold for the live run experience: task navigation,
-dependency graph, code and receipt inspection, orchestrator chat, and local
-telemetry. It uses the existing Zustand run store and is currently a front-end
-demo; connect the run store to Worker/local-runtime SSE or WebSocket events to
-replace demo telemetry and activity with live data. The dependency graph is a
-presentation scaffold today and should be bound to backend DAG edges before it
-is treated as authoritative run evidence.
+Production: https://atoma-labs-site.pages.dev
 
-Open `/brigade` in the dev server to review the workspace. The command palette
-opens with `⌘K` / `Ctrl+K`; graph nodes are selectable and run selection changes
-from the sidebar.
+## Executive summary
 
-The marketing hero is framed for the Meta Global Hackathon 2026 10 Build Sprint,
-Solo Developer Track. The marketing header follows MetaBuild, Mission, About, Products, Research Hub,
-and Blog, with Sign Up and Log in actions. Its hero introduces Brigade run
-tracking, relational research mapping, and the design workspace. The sponsor
-marquee names Cerebral Valley, Baseten, Modal, Fireworks, Together AI, Hugging
-Face, and Cloudflare as community/event ecosystem participants; verify official
-MetaBuild sponsor status before presenting these names as formal sponsors.
+The site now integrates the metallic atom identity and an original orthogonal
+ring animation behind the hero. Visitors can create profiles, save research,
+send contact messages, and ask the Cloudflare-hosted AI guide questions.
+Brigade execution and native runtime integration remain in development.
 
-Deck 03 presents the intended systems architecture: native Rust/C++ serving,
-kernel fusion, resilient scheduling, dynamic memory and prefill paths, model
-plugins, nested hyperbolic KV, and active-inference agent loops. Build-direction
-labels distinguish the architecture story from verified shipped capability;
-hyperbolic KV is explicitly marked roadmap.
+## Problem and solution
 
-The Research Hub page has an interactive source catalog, manuscript reader,
-plain-language summaries, companion chat preview, and an API request example.
-The catalog and assistant responses are demo content; API keys, ingestion,
-source connectors, manuscript parsing, and grounded model responses require
-backend/provider integration before launch. Preprints are labeled as such.
+The previous GitHub deployment failed without Cloudflare credentials. Account,
+contact, and research features were frontend scaffolds; some copy claimed
+unsupported releases and benchmark results. The launch implementation adds
+bounded APIs, real databases, explicit status labels, and release checks.
+See DESIGN.md for visual and backend constraints; docs/LAUNCH_AUDIT.md records
+files, tests, adversarial review, limitations, and next work.
 
-The `/brigade` workspace is an IDE-oriented frontend scaffold with a workspace
-tree, selectable agent code streams, orchestration DAG, right-side meta
-orchestrator chat, and replay/memory target panels. AtomicDB-PAMI, multimodal
-retrieval, live agent execution, replay persistence, and least-privilege tool
-enforcement are architecture targets; the frontend labels them as preview or
-planned until connected to the runtime and security services.
+## Develop and verify
 
-The home hero foregrounds an interactive Brigade IDE and orchestrator chat with
-selectable workspace sections, graph/code/log/replay views, task nodes, and a
-demo command input. A Zustand-backed five-phase BRG-142 walkthrough drives the
-DAG node states, agent lanes, selected packet/code/evidence, event trail,
-telemetry progress, and chat responses from one replay timeline. Use Play/Pause,
-phase stepping, or Replay to inspect the same run from each view. The timeline,
-chat, receipts, and telemetry are transient demo data; they do not dispatch work
-or persist to a backend. R3F renders low-contrast orbital geometry behind the
-IDE; GSAP ScrollTrigger moves the side previews back as the user scrolls. The
-MetaBuild ribbon lists event ecosystem names without asserting formal sponsor
-status.
-The former infrastructure card grid is a single Agentic Harness Theory feature:
-a conceptual control-plane flow, principles, and composable MCP/Skills/harness/
-evidence layers.
+Use Node 24+ and npm. TypeScript 7.1 beta remains experimental.
 
-The next deck makes the runtime build direction explicit: native Rust/C++
-serving, OTP-style supervision, dynamic paging and prefill offload, and a
-multi-model mind. Interactive inspector labels separate in-build foundations
-from research and roadmap items.
+```sh
+npm ci
+npm run dev
+npm run check
+npm audit --audit-level=moderate
+npx playwright install chromium
+npm run test:e2e
+```
 
-The public door to Atoma: home/judging path, how-it-works (v1 Euclidean /
-v2 hyperbolic, claims labeled), data disclosures, contact, login/signup
-shells. Obsidian design per `../design-reference/DESIGN_REFERENCE.md`
-(locked 2026-10-20). Stack: Vite, React 19, R3F, Motion, GSAP ScrollTrigger,
-Zustand, and react-router. Hero and architecture interactions use demo state;
-the orbital scene and route modules are code-split; the brigade runtime and
-React Flow event stream remain backend integration work.
+Vite alone serves the frontend. To exercise Pages Functions with local D1:
 
-## Develop
-    npm install
-    npm run dev
+```sh
+npx wrangler d1 migrations apply PROFILES --local
+npx wrangler d1 migrations apply RESEARCH --local
+npm run build
+npx wrangler pages dev dist
+```
 
-## Build
-    npm run build        # outputs dist/
-    npx tsc --noEmit     # strict source type-check
+Workers AI calls require Cloudflare authentication and remote inference;
+unit tests stub inference and run real SQL against isolated in-memory SQLite.
+Browser tests mock AI to remain deterministic. Production AI was separately
+smoke-tested. No provider credentials belong in frontend environment variables.
 
-## Deploy (Cloudflare Pages, free tier to start)
-1. Install wrangler: `npm i -g wrangler` and `wrangler login`
-   (needs Stewart's Cloudflare account).
-2. `npx wrangler pages deploy dist --project-name atoma-engineering`
-   — or connect the repo in the CF dashboard for push-to-deploy.
-3. `public/_redirects` already carries the SPA fallback rule.
+## Backend and data
 
-## Honesty rules for copy on this site (Stewart, 2026-10-22)
-- Every claim is labeled: shipped / in build / roadmap — in the UI, not a footnote.
-- Performance numbers publish with their waste figures or not at all.
-- v2 (hyperbolic) is always presented as roadmap until it ships.
-- Data practices page is versioned; material changes ship with a dated note.
+| Binding | Resource | Data |
+| --- | --- | --- |
+| PROFILES | atoma-user-profiles | users, salted password hashes, session hashes, rate limits, contact submissions |
+| RESEARCH | atoma-research-hub | curated papers, per-user bookmarks |
+| AI | Workers AI | @cf/meta/llama-3.1-8b-instruct-fp8 |
 
-## Current frontend preview and integration boundary
+`wrangler.jsonc` contains resource IDs, not credentials. Migrations are additive
+and tracked separately per database. Research begins with two verified arXiv
+source records. Reading notes are editorial summaries, not copied abstracts.
+Automated ingestion and full-paper retrieval are not implemented.
 
-The home page now presents the Brigade IDE edge-to-edge, with subdued side
-previews behind it. Its graph, code, logs, replay, and single orchestrator chat
-share a local guided timeline. The following decks use desktop GSAP ScrollTrigger
-pinning and scrubbed entrances; mobile and reduced-motion modes scroll normally.
-The long-horizon DAG is selectable and includes a horizon control, resource
-budget, event inspector, and replay scrubber. All run values are illustrative
-until connected to runtime events.
+| API | Method | Access |
+| --- | --- | --- |
+| /api/health | GET | public binding/database check |
+| /api/papers | GET | public curated catalog |
+| /api/signup, /api/login | POST | email/password, same-origin JSON |
+| /api/profile | GET | session required |
+| /api/logout | POST | session revocation |
+| /api/bookmarks | GET, POST | session required, owner scoped |
+| /api/contact | POST | saved to D1; no email notification |
+| /api/chat | POST | bounded public inference; optional paperId |
 
-The Research Hub homepage preview is a three-pane paper worktree, manuscript
-reader, and demo research companion. Search, source selection, summary/code
-switching, and sample prompts work locally. Its ticker names repositories, labs,
-and universities as a discovery taxonomy; it does not assert that every named
-organization publishes directly to an API. The sample catalog is not a live
-index, and companion answers are not model-grounded. The full Research Hub needs
-configured ingestion, API-key handling, source attribution, and model service.
+Passwords use PBKDF2-SHA256 with random salts and 100,000 iterations. Session
+cookies are Secure, HttpOnly, SameSite=Lax and expire after seven days; only
+hashes are stored. Writes require matching Origin, valid JSON, and <=16 KB
+bodies. SQL is parameterized. Public writes allow 30 requests/IP/endpoint/hour;
+chat allows 20/IP/hour and 200 total/day. The global cap bounds inference
+requests, not a monetary guarantee. All AI questions leave the browser for
+Cloudflare; chat transcripts are not persisted by this application.
 
-`/brand-kit` contains four Atoma identity directions and tagline controls. The
-homepage uses an obsidian/titanium palette; sponsor/source identifiers retain
-restrained brand colors. The sponsor strip describes MetaBuild ecosystem names;
-verify formal sponsor status before calling any organization an event sponsor.
+## Continuous release
 
-`/login` and `/signup` include Apple, Google, GitHub, and Cloudflare Access UI.
-Set `VITE_OAUTH_APPLE_URL`, `VITE_OAUTH_GOOGLE_URL`,
-`VITE_OAUTH_GITHUB_URL`, and `VITE_OAUTH_CLOUDFLARE_ACCESS_URL` to actual
-authorization entrypoints. Provider registration, secrets, callback validation,
-session issuance, and account policy are server-side work and are not included.
-Cloudflare Access IdP policy is configured in the Zero Trust dashboard. Never
-place OAuth client secrets in `VITE_*` variables.
+`.github/workflows/deploy.yml` runs typecheck, lint, API tests, build, dependency
+audit, and desktop/mobile browser checks. Pushes to main deploy only after those
+gates pass. PRs run verification without production secrets or migrations.
+Production deployments apply both D1 migration sets before uploading Functions
+and assets. The final job checks `/api/health`.
 
-This checkout pins the experimental TypeScript compiler at `typescript@beta`
-(currently 7.1.0-beta). This beta is published by Microsoft TypeScript, not
-Cloudflare. Cloudflare documents TypeScript support for Workers; confirm the
-beta against the selected Pages/Workers build configuration before deployment.
+Required repository Actions secrets:
 
-The Research Hub now centers the selected manuscript in a three-pane reader:
-left-side source worktree and navigable conceptual topic map, central manuscript,
-and a first-class research companion. Graph lines are demo topic relationships,
-not verified citations. The standalone API code mock has been removed; API access
-is shown as planned until a real endpoint and credentials are available.
+- CLOUDFLARE_ACCOUNT_ID — configured by this implementation.
+- CLOUDFLARE_API_TOKEN — durable account-scoped token with Pages Edit and D1 Edit;
+  configured in GitHub encrypted secrets. Wrangler's local OAuth token is not copied to CI.
 
-The Apps overview run snapshot uses fixed, bounded columns for task IDs, titles,
-and lane progress to prevent long task names from colliding with run metadata.
-The home closing CTA now carries the Atoma Engineering Labs identity and the
-line “Solo by choice. Built to go further.”
+A direct authenticated Wrangler deployment is live. Both GitHub release secrets
+are configured; see the launch audit for the latest automatic release evidence.
+
+Manual release after verification:
+
+```sh
+npx wrangler d1 migrations apply PROFILES --remote
+npx wrangler d1 migrations apply RESEARCH --remote
+npm run build
+npm run deploy -- --branch main
+```
+
+Rollback: redeploy the previous known-good Git commit or promote a prior Pages
+deployment in Cloudflare. Do not reverse production data migrations blindly;
+these initial migrations are additive. Monitor `/api/health`, Pages deployment
+status, and Workers AI usage in the Cloudflare account.
+
+## Boundaries and next stage
+
+- Email verification, account recovery, social OAuth, and account deletion UI
+  remain future work. Use unique passwords; deletion requests go through Contact.
+- The public AI is a guide, not a tool executor. Research answers use editorial
+  notes and disclose that full manuscripts are unavailable.
+- The Brigade, architecture maps, telemetry, and orchestration chat are demos.
+  Tool isolation and permission enforcement are product design, not guarantees
+  provided by this frontend.
+- Sponsor/event names are ecosystem context, not proof of sponsorship.
+- The native renderer is lazy-loaded and remains a substantial Three.js chunk.
+  DPR is bounded; rendering pauses offscreen/hidden and falls back for reduced
+  motion, context loss, or unavailable WebGL.
+- Next: recovery/verification, ingestion with licensing gates,
+  broader accessibility review, and real runtime event integration.
+
+This implementation establishes the website backend and public presentation;
+it does not qualify the native runtime or establish hackathon eligibility.

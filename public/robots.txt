@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://atoma-labs-site.pages.dev/sitemap.xml

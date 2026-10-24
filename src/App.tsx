@@ -1,3 +1,4 @@
+import { AiWidget } from "./components/AiWidget";
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 const Home = React.lazy(() => import("./pages/Home.tsx"));
@@ -16,15 +17,16 @@ const BrigadeWorkspace = React.lazy(() => import("./pages/BrigadeWorkspace.tsx")
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header">
         <Link to="/" className="brand">
-          <img src="/atoma-mark.svg" alt="" className="brand-mark" />
+          <img src="/atoma-atom.png" alt="" className="brand-mark" />
           <span className="brand-wordmark"><b>ATOMA</b><small>ENGINEERING LABS</small></span>
         </Link>
-        <nav className="site-nav">
+        <nav className="site-nav" aria-label="Main navigation">
           <a href="/#metabuild">MetaBuild</a>
           <Link to="/mission">Mission</Link>
-          <Link to="/contact">About</Link>
+          <Link to="/mission">About</Link>
           <details className="products-menu">
             <summary>Products <span>⌄</span></summary>
             <div className="products-dropdown">
@@ -37,7 +39,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </details>
           <Link to="/research-hub">Research Hub</Link>
-          <Link to="/mission#blog">Blog</Link>
+          <Link to="/#changelog">Build log</Link>
         </nav>
         <div className="header-actions">
           <Link to="/signup" className="btn-signup">Sign Up</Link>
@@ -45,13 +47,14 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       <Suspense fallback={<div className="route-loading" role="status">Loading Atoma workspace…</div>}>
-        {window.location.pathname === "/brigade" ? children : <main>{children}</main>}
+        {window.location.pathname === "/brigade" ? children : <main id="main-content">{children}</main>}
       </Suspense>
+      <AiWidget />
       <footer className="site-footer">
         <div className="footer-grid">
           <div className="footer-brand">
             <Link to="/" className="brand">
-              <img src="/atoma-mark.svg" alt="" className="brand-mark" />
+              <img src="/atoma-atom.png" alt="" className="brand-mark" />
               <span className="brand-wordmark"><b>ATOMA</b><small>ENGINEERING LABS</small></span>
             </Link>
             <p>Build intelligence you can inspect.</p>
@@ -70,34 +73,33 @@ function Layout({ children }: { children: React.ReactNode }) {
             <Link to="/mission">Mission</Link>
             <Link to="/contact">About Us</Link>
             <Link to="/#changelog">What we're working on</Link>
-            <Link to="/mission#blog">Blog</Link>
-            <Link to="/contact#careers">Careers</Link>
+            <Link to="/#changelog">Build log</Link>
+            <Link to="/contact">Careers</Link>
           </div>
           <div className="footer-col">
             <h5>Resources</h5>
-            <Link to="/tooling#docs">Documentation</Link>
+            <Link to="/tooling">Documentation</Link>
             <Link to="/research-hub#reader">API Reference</Link>
             <a href="https://github.com/sbarteau2022" target="_blank" rel="noreferrer">Open Source</a>
-            <Link to="/apps#status">Status</Link>
+            <Link to="/apps">Status</Link>
           </div>
           <div className="footer-col">
             <h5>Legal &amp; Trust</h5>
-            <span>Disclosures</span>
-            <span>Data Practices</span>
-            <span>Licenses</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span>Security</span>
+            <Link to="/privacy">Disclosures</Link>
+            <Link to="/privacy">Data practices</Link>
+            <a href="https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta">Source &amp; dependencies</a>
+            <Link to="/privacy">Privacy &amp; data</Link>
+            <Link to="/contact">Usage questions</Link>
+            <Link to="/privacy">Security</Link>
           </div>
         </div>
         <p className="footer-practices">
-          Data practices: Atoma Labs tools run locally by default and do not transmit
-          prompts, code or telemetry without explicit opt-in. Research Hub indexes publicly
-          available preprints under their original licenses. Open-source components are distributed
-          under Apache-2.0 or MIT.
+          Website AI sends your submitted question to Cloudflare Workers AI. Chats are not stored.
+          Accounts and contact messages are stored in Cloudflare D1. The Research Hub holds a small
+          curated source catalog; editorial notes are not original abstracts. Runtime previews use demo data.
         </p>
         <div className="footer-bottom">
-          <span>© 2025 Atoma Labs. All rights reserved.</span>
+          <span>© 2026 Atoma Labs. All rights reserved.</span>
           <span className="plat">macOS • Linux • Windows</span>
         </div>
       </footer>
@@ -123,6 +125,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/how-it-works" element={<Navigate to="/harness" replace />} />
+          <Route path="/privacy" element={<div className="page-head"><div className="micro">DATA PRACTICES · OCTOBER 24, 2026</div><h1>Your work deserves clear boundaries.</h1><p>AI questions are processed by Cloudflare Workers AI. We do not store chat history. Avoid submitting confidential information. Account email, display name, salted password hash, and session records are held in Cloudflare D1. Sessions expire after seven days. Contact submissions are stored for the builder to review; no email delivery is promised. Research bookmarks are tied to your account. No advertising analytics are installed. Request account or message deletion through the contact page. Accounts currently do not support email verification or password recovery; use a unique password.</p><Link to="/contact">Contact the builder ↗</Link></div>} />
+          <Route path="*" element={<div className="page-head"><h1>This path is still unbuilt.</h1><p>Head back to the command center.</p><Link className="btn btn-white" to="/">Return home ↗</Link></div>} />
           <Route path="/data" element={<Navigate to="/research-hub" replace />} />
         </Routes>
       </Layout>

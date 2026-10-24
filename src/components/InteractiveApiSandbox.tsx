@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { Terminal, Copy, Check, Play, Zap } from "lucide-react";
 
 export function InteractiveApiSandbox() {

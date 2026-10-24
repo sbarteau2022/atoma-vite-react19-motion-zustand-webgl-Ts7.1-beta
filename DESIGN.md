@@ -182,3 +182,20 @@ text marks, not official logo artwork or proof of sponsorship.
   developer line; do not use empty gradient slabs as content placeholders.
 - Brigade run rows use separately bounded status, ID, title, and progress
   columns. Long titles may truncate but must not overlap metadata.
+
+## Launch backend and orbital identity — October 24, 2026
+
+The public identity is `public/atoma-atom.png`. The hero uses three circular
+rings in mutually orthogonal planes as one slowly rotating R3F sculpture, a
+physical nucleus, cool edge lighting and a warm rim. Pointer tilt is bounded.
+Rendering pauses outside the viewport and hidden tabs; reduced motion and
+WebGL failure use a static logo. DPR is capped at 1.5. Keep the IDE opaque and
+foreground text readable. This is brand animation, not runtime telemetry.
+
+Pages Functions own `/api/*`, Workers AI owns inference, and two separate D1
+databases own profiles/session hashes/contact submissions and research/bookmarks.
+All writes require same-origin JSON, parameterized SQL, bounded bodies, and
+request limits. AI has per-IP hourly and global daily budgets. Account sessions
+use Secure HttpOnly SameSite cookies. Editorial research notes are identified
+as notes, with original source links. Auth does not imply email verification.
+GitHub CI gates deployment on types, lint, API tests, browser tests and build.

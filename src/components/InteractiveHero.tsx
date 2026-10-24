@@ -16,7 +16,7 @@ const laneNodes = [
   { id: "audit", name: "SEC", title: "Security review" },
 ] as const;
 const phaseProgress = [14, 31, 58, 86, 100];
-function Mark() { return <img src="/atoma-mark.svg" alt=""/>; }
+function Mark() { return <img src="/atoma-atom.png" alt=""/>; }
 function MetaMark() { return <svg viewBox="0 0 24 16" aria-hidden="true"><path d="M2 11.8C3.4 5.3 6.6 2 9 2c2 0 3.8 3.1 6 7.2C17.1 13 18.4 14 20 13c1.5-1 2-3.2 1.5-5.2C21 5 19 3 17 3c-2.2 0-4.2 2.6-6.6 6.7C8.2 13.4 6.5 14.5 5 13.8 3 13 2.4 11.7 2 11.8Z"/></svg>; }
 const OrbitalScene = lazy(() => import("./OrbitalScene"));
 
@@ -64,12 +64,13 @@ export function InteractiveHero() {
   const statusText = (state: string) => state === "verified" ? "✓ VERIFIED" : state === "running" ? "● IN PROGRESS" : "○ QUEUED";
 
   return <section className="atoma-hero" ref={root} aria-labelledby="hero-title">
+    <div className="hero-scene-glow" aria-hidden="true"><Suspense fallback={null}><OrbitalScene/></Suspense></div>
     <div className="hero-copy"><div className="meta-event-band" id="metabuild"><span className="meta-event-copy"><i/> BUILT FOR THE METABUILD COMMUNITY <span className="event-slash">/</span> META GLOBAL HACKATHON 2026</span><div className="meta-sponsors" aria-label="MetaBuild event and ecosystem names"><b className="meta-wordmark"><MetaMark/> Meta</b><span className="event-brand cerebral"><i>CV</i>Cerebral Valley</span><span className="event-brand baseten"><i>✣</i>Baseten</span><span className="event-brand modal"><i>m</i>Modal</span><span className="event-brand fireworks"><i>✳</i>Fireworks</span></div></div>
       <div className="hero-kicker"><span className="live-dot"/> META GLOBAL HACKATHON <i>·</i> 10 BUILD SPRINT <i>·</i> SOLO DEVELOPER TRACK</div>
       <h1 id="hero-title">Great engineering<br/><em>starts with first principles.</em></h1><p className="hero-description">One command center for the agentic swarm.<br className="desktop-break"/> Direct the work. Watch every branch. Keep the evidence.</p>
       <div className="hero-ctas"><Link className="btn btn-white" to="/brigade">Demo the Brigade <ArrowUpRight size={16}/></Link><Link className="btn request-v1" to="/contact"><span>Request v1 MadMind Brigade</span><span className="hero-os">macOS <i>·</i> Linux <i>·</i> Windows</span></Link></div>
     </div>
-    <div className="hero-showcase" aria-label="Interactive Brigade command center preview"><div className="hero-scene-glow" aria-hidden="true"><Suspense fallback={null}><OrbitalScene/></Suspense></div>
+    <div className="hero-showcase" aria-label="Interactive Brigade command center preview">
       <div className="hero-side-card left" aria-hidden="true"><small>BRIGADE MOBILE</small><b>Every run,<br/>in motion.</b><span><Activity size={15}/> 4 agents active</span><div className="side-mini-graph">{[0,1,2,3,4,5].map(i=><i key={i}/>)}</div></div>
       <div className="hero-side-card right" aria-hidden="true"><small>RELATIONAL RESEARCH</small><b>Ideas connected<br/>to evidence.</b><div className="side-graph">{[0,1,2,3,4,5,6].map(i=><i key={i}/>)}</div><span>12 sources · 3 branches</span></div>
       <motion.div className="hero-product-window" initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} transition={{duration:.7,ease:"easeOut"}}>

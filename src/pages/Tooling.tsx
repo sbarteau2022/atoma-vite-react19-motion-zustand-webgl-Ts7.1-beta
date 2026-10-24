@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 
 export default function Tooling() {
   return (
     <>
       <div className="page-head">
-        <div className="micro">Tooling · Tools &amp; Skills</div>
+        <p className="launch-boundary">IN DEVELOPMENT · The following describes the intended product. This website provides interactive previews; it does not execute agents or enforce runtime tool permissions.</p><div className="micro">Tooling · Tools &amp; Skills</div>
         <h1>Skills.md: agent skills that travel.</h1>
         <p className="lede">
           A skill should be a file, not a feature. Skills.md is our portable

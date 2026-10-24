@@ -6,16 +6,23 @@
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `color-primary` | `#1a1a2e` | Primary background / deep navy |
-| `color-on-primary` | `#f5f5f7` | Text on primary |
-| `color-secondary` | `#2d2d44` | Section backgrounds |
-| `color-on-secondary` | `#1a1a2e` | Text on secondary |
-| `color-accent` | `#4a90e2` | Accent / interactive elements |
-| `color-on-accent` | `#ffffff` | Text on accent |
-| `color-muted` | `#6b6b80` | Muted text / secondary text |
-| `color-on-muted` | `#1a1a2e` | Text on muted |
-| `color-inverse` | `#f5f5f7` | Inverse text / light backgrounds |
-| `color-inverse-on` | `#1a1a2e` | Inverse text color |
+| `color-primary` | `#090b0e` | Obsidian page background |
+| `color-on-primary` | `#e9eded` | Primary text |
+| `color-secondary` | `#11161a` | Dark glass panels |
+| `color-on-secondary` | `#c4cccf` | Text on panels |
+| `color-accent` | `#9aafc2` | Titanium blue focus and action accent |
+| `color-on-accent` | `#0b1014` | Text on accent controls |
+| `color-muted` | `#a1a8aa` | Supporting text |
+| `color-on-muted` | `#050607` | Text against muted fills |
+| `color-inverse` | `#e9eded` | High contrast action surface |
+| `color-inverse-on` | `#0a0c0d` | Text on inverse surface |
+| `color-verified` | `#9aa9a2` | Muted verified run states |
+| `color-roadmap` | `#b8b1a5` | Roadmap and research direction |
+
+The primary palette is neutral obsidian glass with titanium borders and a matte
+blue accent. Green, amber, and partner colors are limited to status and source
+identity marks. Sponsor and research-source glyphs in this scaffold are custom
+text marks, not official logo artwork or proof of sponsorship.
 
 ### Typography
 
@@ -71,8 +78,21 @@
 ## Page-Level Design Guidelines
 
 ### Home Page
-- Hero with micro-label, headline, lede, and primary CTA
-- Grid-based feature sections with consistent spacing
+- MetaBuild event ribbon, event ecosystem wordmarks, and solo-developer sprint label
+- First-principles headline followed by a foreground IDE, DAG, telemetry, and a
+  single Meta Orchestrator chat; secondary app/research previews recede behind it
+- IDE preview interactions: workspace sections, Graph/Code/Logs/Replay tabs,
+  selectable DAG nodes, and a local demo-only chat composer
+- GSAP ScrollTrigger shifts decorative side previews during scroll; respect
+  reduced-motion preferences. R3F geometry stays behind the product UI.
+- At desktop widths, ScrollTrigger pins the Brigade, harness, architecture, and
+  research decks in sequence and scrubs their entrance as the user scrolls.
+  Mobile and reduced-motion modes use ordinary scrolling.
+- The Research Hub preview uses a three-pane paper worktree, manuscript reader,
+  and demo companion. Its source ticker is a discovery taxonomy, not a claim
+  that every lab or university exposes a direct preprint API.
+- Single Agentic Harness Theory deck followed by a labeled runtime architecture
+  map and Research Hub story; avoid generic four-card feature grids
 - Principle cards in grid2 layout
 - Version line comparison table with pill status indicators
 - Primary and secondary CTA buttons
@@ -113,7 +133,7 @@
 ## Navigation Structure
 
 ```
-/ — Home
+/ — Home (MetaBuild / Mission / About / Products / Research Hub / Blog)
 /mission — Mission
 /apps — Apps
 /harness — Harness · MadMind
@@ -132,8 +152,33 @@
 - **v1** — Standard, exact world: standard models, plan tree, deterministic controller
 - **v2** — Multi-model mind with hyperbolic geometry: nested maps, custom brigades, roadmap
 
+## Identity and account entry
+
+- `/brand-kit` presents four original Atoma mark concepts and editable tagline
+  options. The default public mark is `public/atoma-mark.svg`.
+- `/login` and `/signup` provide Apple, Google, GitHub, and Cloudflare Access
+  entry points. Configure `VITE_OAUTH_APPLE_URL`, `VITE_OAUTH_GOOGLE_URL`,
+  `VITE_OAUTH_GITHUB_URL`, and `VITE_OAUTH_CLOUDFLARE_ACCESS_URL` with real
+  authorization endpoints and implement server-side callbacks before enabling
+  account access. Buttons without an endpoint explain that setup is pending.
+- TypeScript 7.1.0-beta is an experimental Microsoft TypeScript compiler used
+  by this project; Cloudflare did not release it. Cloudflare Workers/Pages
+  supports TypeScript, but production compatibility remains gated on its build
+  and deployment pipeline.
+
 ## Status Indicators
 
 - `pill pill-roadmap` — Roadmap / in development
 - `pill pill-verified` — Verified / live
 - `pill pill-1` through `pill pill-6` — Principle numbering
+
+### Research Hub and closing brand moment
+- Research console uses a three-pane hierarchy: source worktree and conceptual
+  topic graph on the left, manuscript reader in the center, AI companion on the
+  right. Topic edges are labeled as exploratory, never as citation proof.
+- Remove the standalone API code mock from the reader flow. Keep API access
+  status explicit until a live endpoint and key service exist.
+- The closing CTA carries the Atoma Engineering Labs mark and a concise solo
+  developer line; do not use empty gradient slabs as content placeholders.
+- Brigade run rows use separately bounded status, ID, title, and progress
+  columns. Long titles may truncate but must not overlap metadata.

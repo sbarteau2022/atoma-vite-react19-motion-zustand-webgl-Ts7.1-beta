@@ -116,44 +116,41 @@ export function ConsoleMock() {
   );
 }
 
-/* Brigade workspace mock — section 1.0 on Home, reused on /apps. */
+/* Brigade workspace snapshot used on the Apps overview. */
 export function WorkspaceMock() {
+  const runs = [
+    { id: "BRG-142", title: "Refactor tokio runtime scheduler", lane: "PLANNER", state: "cyan", progress: 82, note: "3 dependencies · checkpoint 04" },
+    { id: "BRG-141", title: "Index arXiv cs.AI — last 24h", lane: "RESEARCH", state: "green", progress: 64, note: "128 records · source receipts attached" },
+    { id: "BRG-139", title: "Quantize 7B for 8 GB unified memory", lane: "LABS", state: "amber", progress: 41, note: "Q4_K_M · local evaluation" },
+    { id: "BRG-137", title: "Generate Skills.md for repo tooling", lane: "QUEUED", state: "slate", progress: 12, note: "Waiting on verified interface contract" },
+  ];
   return (
-    <div className="workspace" aria-hidden="true">
-      <div className="ws-nav">
+    <div className="workspace" aria-label="Brigade workspace preview">
+      <nav className="ws-nav" aria-label="Workspace sections">
         <span className="micro">Workspace</span>
-        <div className="cnav-item on"><span className="status-dot green" />Pipelines</div>
-        <div className="cnav-item"><span className="status-dot cyan" />Agents</div>
-        <div className="cnav-item"><span className="status-dot green" />MCP Servers</div>
-        <div className="cnav-item"><span className="status-dot amber" />Skills</div>
-        <div className="cnav-item">Audit Log</div>
-      </div>
-      <div className="ws-main">
+        {["Pipelines", "Agents", "MCP Servers", "Skills", "Audit Log"].map((item, i) => (
+          <div className={`cnav-item ${i === 0 ? "on" : ""}`} key={item}>
+            <span className={`status-dot ${["green", "cyan", "green", "amber", ""][i]}`} />{item}
+          </div>
+        ))}
+      </nav>
+      <section className="ws-main" aria-label="Active agent runs">
         <div className="ws-head">
-          <span className="micro">Active runs</span>
-          <span className="ws-meta">4 agents • 12.4 tok/ms</span>
+          <span className="micro">Active run DAG</span>
+          <span className="ws-meta">4 lanes <i>·</i> 12.4 tok/s <i>·</i> local preview</span>
         </div>
-        <div className="run-row">
-          <span className="status-dot cyan" /><span className="rid">BRG-142</span>
-          <span className="rtitle">Refactor tokio runtime scheduler</span>
-          <span><span className="role">planner</span><span className="pbar"><i className="green" style={{ width: "82%" }} /></span></span>
+        <div className="ws-run-list">
+          {runs.map((run) => (
+            <article className="ws-run-row" key={run.id}>
+              <i className={`status-dot ${run.state}`} />
+              <span className="ws-run-id">{run.id}</span>
+              <div className="ws-run-copy"><b>{run.title}</b><small>{run.note}</small></div>
+              <div className="ws-run-progress"><span>{run.lane}</span><div className="pbar"><i className={run.state} style={{ width: `${run.progress}%` }} /></div><small>{run.progress}%</small></div>
+            </article>
+          ))}
         </div>
-        <div className="run-row">
-          <span className="status-dot green" /><span className="rid">BRG-141</span>
-          <span className="rtitle">Index arXiv cs.AI — last 24h</span>
-          <span><span className="role">research</span><span className="pbar"><i style={{ width: "64%" }} /></span></span>
-        </div>
-        <div className="run-row">
-          <span className="rid" style={{ marginLeft: "14px" }}>BRG-139</span>
-          <span className="rtitle">Quantize 7B to Q4_K_M for M2 8GB</span>
-          <span><span className="role">labs</span><span className="pbar"><i className="amber" style={{ width: "41%" }} /></span></span>
-        </div>
-        <div className="run-row">
-          <span className="rid" style={{ marginLeft: "14px" }}>BRG-137</span>
-          <span className="rtitle">Generate Skills.md for repo tooling</span>
-          <span><span className="role">queued</span><span className="pbar"><i className="grey" style={{ width: "12%" }} /></span></span>
-        </div>
-      </div>
+        <div className="ws-run-foot"><span>● Receipts attached to each transition</span><span>Replay ready · local demo data</span></div>
+      </section>
       <TelemetryRail />
     </div>
   );

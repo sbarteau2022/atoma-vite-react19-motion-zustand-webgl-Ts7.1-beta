@@ -1,394 +1,286 @@
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
-import { ArrowUpRight, ArrowRight, ShieldCheck, Terminal, Cpu, HardDrive, CheckCircle2 } from "lucide-react";
-import { ToroidCanvas } from "../components/ToroidCanvas.tsx";
-import { InteractiveConsole } from "../components/InteractiveConsole.tsx";
-import { DoubleBezelCard } from "../components/DoubleBezelCard.tsx";
-import { NumberTicker } from "../components/NumberTicker.tsx";
-import { InteractiveApiSandbox } from "../components/InteractiveApiSandbox.tsx";
+import { Chip, SectionHead, ConsoleMock, WorkspaceMock, StackStrip } from "../components.jsx";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden pt-24 pb-20 font-sans">
-      
-      {/* Dynamic Toroid WebGL Background */}
-      <ToroidCanvas className="opacity-75" intensity={1.1} />
-
-      {/* Hero Section */}
-      <section className="relative mx-auto max-w-6xl px-4 pt-12 pb-16 text-center">
-        {/* New Benchmark Chip */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-          className="inline-block"
-        >
-          <Link
-            to="/harness"
-            className="group inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.04] px-4 py-1.5 font-mono text-xs text-[#8b9595] backdrop-blur-xl transition-all duration-300 hover:border-[#4fe3ea]/50 hover:bg-white/[0.08] hover:text-white"
-          >
-            <span className="rounded-full bg-[#4fe3ea]/20 px-2 py-0.5 text-[10px] font-bold text-[#4fe3ea]">
-              NEW
-            </span>
-            <span>MadMind v0.1.0 — dual-lane harness is live on the bench</span>
-            <ArrowRight className="h-3 w-3 text-[#4fe3ea] transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-        </motion.div>
-
-        {/* Hero Lede / Value Proposition */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.32, 0.72, 0, 1] }}
-          className="mx-auto mt-6 max-w-3xl"
-        >
-          <h1 className="sr-only">Atoma Labs — Agentic Tooling for Solo Developers</h1>
-          <p className="font-mono text-sm uppercase tracking-[0.22em] text-[#4fe3ea] mb-3">
-            Local-First Sovereign AI
-          </p>
-          <p className="text-xl sm:text-2xl md:text-3xl font-normal leading-relaxed text-[#e9eded]">
-            Atoma Labs builds agentic tooling for solo developers — MCP servers,
-            Skills.md, harnesses and research-grade labs engineered for
-            constrained hardware.
-          </p>
-        </motion.div>
-
-        {/* Hero CTA Button Island */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-4"
-        >
-          {/* Button-in-Button Launch Brigade */}
-          <Link
-            to="/apps"
-            className="group relative inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 font-mono text-xs font-semibold text-black transition-all duration-300 hover:bg-[#e9eded] active:scale-[0.98] shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-          >
-            <span>Launch Brigade demo</span>
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              <ArrowUpRight className="h-3.5 w-3.5 text-black" />
+    <div className="home-root">
+      {/* ---- Hero: chip, luminous panel, one tagline, CTAs, collage ---- */}
+      <section className="hero">
+        <h1 className="sr-only">Atoma Labs — agentic tooling for solo developers</h1>
+        <Chip to="/harness" tag="New">MadMind v0.1.0 — the dual-lane harness is live on the bench</Chip>
+        <div className="hero-luminous" aria-hidden="true" />
+        <p className="lede">
+          Atoma Labs builds agentic tooling for solo developers — MCP servers,
+          Skills.md, harnesses and research-grade labs engineered for
+          constrained hardware.
+        </p>
+        <div className="hero-ctas">
+          <Link className="btn btn-white" to="/apps">Launch Brigade demo</Link>
+          <Link className="btn" to="/apps#downloads">
+            Download app
+            <span className="os-glyphs" aria-hidden="true">
+              <i className="os-c" />
+              <i className="os-s" />
+              <i className="os-t" />
             </span>
           </Link>
+        </div>
+        <ConsoleMock />
+        <StackStrip />
+      </section>
 
-          {/* Download App Pill */}
-          <Link
-            to="/apps#downloads"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 font-mono text-xs font-medium text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/10 hover:border-white/30 active:scale-[0.98]"
-          >
-            <span>Download app</span>
-            <span className="flex items-center gap-1 text-[10px] text-[#8b9595]">
-              (macOS · Linux · Windows)
-            </span>
-          </Link>
-        </motion.div>
-
-        {/* The Living Interactive IDE Console */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.3, ease: [0.32, 0.72, 0, 1] }}
-          className="mt-12"
+      {/* ---- 1.0 Brigade App ---- */}
+      <section>
+        <SectionHead
+          num="1.0" label="Brigade App v1"
+          title="An agent brigade" tone="that answers to you."
         >
-          <InteractiveConsole />
-        </motion.div>
+          Deterministic token generation and continuous graph orchestration
+          in one local-first workspace. Every step is traced, every decision
+          auditable, <b>nothing leaves your machine</b>. The brigade plans in
+          the open, works under judges, and answers to the person who owns
+          the hardware — you.
+        </SectionHead>
+        <WorkspaceMock />
       </section>
 
-      {/* Section 1.0: Brigade App */}
-      <section className="relative mx-auto max-w-6xl px-4 py-24 border-t border-white/5">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-12">
-          <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#5b6464]">
-              <span className="text-[#4fe3ea]">1.0</span>
-              <span>Brigade App v1</span>
-            </div>
-            <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-white">
-              An agent brigade <span className="text-[#8b9595] font-light">that answers to you.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-[#8b9595]">
-            Deterministic token generation and continuous graph orchestration in one local-first workspace.
-            Every step is traced, every decision auditable, <b className="text-white">nothing leaves your machine</b>.
-            The brigade plans in the open, works under judges, and answers to the person who owns the hardware — you.
-          </p>
-        </div>
+      {/* ---- 2.0 Infrastructure ---- */}
+      <section>
+        <SectionHead
+          num="2.0" label="MCP · Tools · Skills · Labs"
+          title="Infrastructure, not wrappers." tone="Built to be composed."
+        >
+          Most agent tooling is a prompt in a trench coat. Ours is the layer
+          underneath: protocol servers, portable skills and harnesses you can
+          inspect, pin and reuse — <b>composed, not rented</b>.
+        </SectionHead>
 
-        {/* Live Workspace Run Grid */}
-        <DoubleBezelCard>
-          <div className="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-xs">
-            <span className="font-semibold text-white">Active Runs</span>
-            <span className="text-[#4fe3ea]">4 agents · local</span>
-          </div>
-          <div className="mt-4 space-y-3 font-mono text-xs">
-            {[
-              { id: "BRG-142", name: "Refactor tokio runtime scheduler", role: "PLANNER", time: "just now", status: "running" },
-              { id: "BRG-141", name: "Index arxiv cs.AI — last 24h", role: "RESEARCHER", time: "2m ago", status: "running" },
-              { id: "BRG-139", name: "Quantize 7B to Q4_K_M for M2 8GB", role: "LABS", time: "14m ago", status: "running" },
-              { id: "BRG-137", name: "Generate Skills.md for repo tooling", role: "QUEUED", time: "1h ago", status: "queued" },
-            ].map((run) => (
-              <div
-                key={run.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl border border-white/5 bg-black/40 p-3.5 transition-all hover:border-[#4fe3ea]/30"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="h-2 w-2 rounded-full bg-[#3ddc84] animate-pulse" />
-                  <span className="font-bold text-white">{run.id}</span>
-                  <span className="text-[#8b9595]">{run.name}</span>
-                </div>
-                <div className="flex items-center gap-3 text-[10px]">
-                  <span className="rounded bg-white/5 px-2 py-0.5 text-[#4fe3ea]">{run.role}</span>
-                  <span className="text-[#5b6464]">{run.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </DoubleBezelCard>
-      </section>
-
-      {/* Section 2.0: Infrastructure, not wrappers */}
-      <section className="relative mx-auto max-w-6xl px-4 py-24 border-t border-white/5">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-12">
-          <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#5b6464]">
-              <span className="text-[#4fe3ea]">2.0</span>
-              <span>MCP · Tools · Skills · Labs</span>
-            </div>
-            <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-white">
-              Infrastructure, not wrappers. <span className="text-[#8b9595] font-light">Built to be composed.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-[#8b9595]">
-            Most agent tooling is a prompt in a trench coat. Ours is the layer underneath: protocol servers,
-            portable skills and harnesses you can inspect, pin and reuse — <b className="text-white">composed, not rented</b>.
-          </p>
-        </div>
-
-        {/* Asymmetrical Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* Bento Card 1: Production MCP Servers */}
-          <DoubleBezelCard>
-            <div className="font-mono text-xs text-[#4fe3ea]">▤ MCP SERVERS</div>
-            <h3 className="mt-2 text-xl font-bold text-white">
-              Production-grade Model Context Protocol servers.
-            </h3>
-            <p className="mt-2 text-sm text-[#8b9595]">
-              Drop-in servers for filesystem, git, research and local inference — typed, sandboxed, and observable.
+        <div className="infra-grid">
+          <div className="panel infra-card">
+            <span className="card-tag">▤ MCP Servers</span>
+            <h3>Production-grade Model Context Protocol servers.</h3>
+            <p>
+              Drop-in servers for filesystem, git, research and local
+              inference — typed, sandboxed, and observable.
             </p>
-            <div className="mt-5 space-y-2 font-mono text-xs">
-              <div className="flex items-center justify-between rounded-lg bg-black/50 p-2.5 border border-white/5">
-                <span className="text-white">atoma-fs</span>
-                <span className="text-[#8b9595]">stdio · 14 tools</span>
-                <span className="text-[#3ddc84] flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-[#3ddc84]" />healthy</span>
+            <div className="server-list">
+              <div className="server-row">
+                <span className="sname">atoma-fs</span>
+                <span className="strans">stdio · 14 tools</span>
+                <span className="health ok"><span className="status-dot green" />healthy</span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-black/50 p-2.5 border border-white/5">
-                <span className="text-white">atoma-research</span>
-                <span className="text-[#8b9595]">http · 9 tools</span>
-                <span className="text-[#3ddc84] flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-[#3ddc84]" />healthy</span>
+              <div className="server-row">
+                <span className="sname">atoma-research</span>
+                <span className="strans">http · 9 tools</span>
+                <span className="health ok"><span className="status-dot green" />healthy</span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-black/50 p-2.5 border border-white/5">
-                <span className="text-white">atoma-infer-metal</span>
-                <span className="text-[#8b9595]">stdio · 6 tools</span>
-                <span className="text-[#f0a832] flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-[#f0a832]" />warning</span>
+              <div className="server-row">
+                <span className="sname">atoma-infer-metal</span>
+                <span className="strans">stdio · 6 tools</span>
+                <span className="health warn"><span className="status-dot amber" />warning</span>
               </div>
             </div>
-            <Link to="/plugins" className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-[#4fe3ea] hover:underline">
-              How the servers are built →
-            </Link>
-          </DoubleBezelCard>
+            <p><Link to="/plugins">How the servers are built →</Link></p>
+          </div>
 
-          {/* Bento Card 2: Portable Skills.md */}
-          <DoubleBezelCard>
-            <div className="font-mono text-xs text-[#4fe3ea]">✎ SKILLS.MD</div>
-            <h3 className="mt-2 text-xl font-bold text-white">Portable agent skills.</h3>
-            <p className="mt-2 text-sm text-[#8b9595]">
-              A skill is a markdown file with a contract: what it does, which tools it may touch, when it applies.
-              It travels between harnesses because it was never locked inside one.
+          <div className="panel infra-card">
+            <span className="card-tag">✎ Skills.md</span>
+            <h3>Portable agent skills.</h3>
+            <p>
+              A skill is a markdown file with a contract: what it does, which
+              tools it may touch, when it applies. It travels between harnesses
+              because it was never locked inside one.
             </p>
-            <div className="mt-5 rounded-xl border border-white/5 bg-black/60 p-3 font-mono text-xs text-[#8b9595] leading-relaxed">
-              <div><span className="text-[#f0a832]">name:</span> <span className="text-[#3ddc84]">rust-refactor</span></div>
-              <div><span className="text-[#f0a832]">tools:</span> [fs, cargo]</div>
-              <div className="mt-1 text-[#5b6464]"># When to use</div>
-              <div>Apply when a crate fails clippy -D warnings.</div>
+            <div className="codeblock skill-snippet">
+              <span className="tok-k">name:</span> <span className="tok-t">rust-refactor</span>{"\n"}
+              <span className="tok-k">tools:</span> [fs, cargo]{"\n"}
+              <span className="tok-a"># When to use</span>{"\n"}
+              Apply when a crate{"\n"}
+              fails clippy -D warnings.
             </div>
-            <Link to="/tooling" className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-[#4fe3ea] hover:underline">
-              The Skills.md format →
-            </Link>
-          </DoubleBezelCard>
+            <p><Link to="/tooling">The Skills.md format →</Link></p>
+          </div>
 
-          {/* Bento Card 3: Agentic Harnesses & Pass Rate */}
-          <DoubleBezelCard>
-            <div className="font-mono text-xs text-[#4fe3ea]">▦ AGENTIC HARNESSES</div>
-            <h3 className="mt-2 text-xl font-bold text-white">
-              Evaluate tool-calling like you test code.
-            </h3>
-            <p className="mt-2 text-sm text-[#8b9595]">
-              MadMind runs two lanes — a builder and a contributor — under deterministic judges.
-              A run completes only when its receipts pass.
+          <div className="panel infra-card">
+            <span className="card-tag">▦ Agentic Harnesses</span>
+            <h3>Evaluate tool-calling like you test code.</h3>
+            <p>
+              MadMind runs two lanes — a builder and a contributor — under
+              deterministic judges. A run completes only when its receipts
+              pass, and the ledger keeps the score where you can read it.
             </p>
-            <div className="mt-6 flex items-end gap-2 h-20 pt-4 border-b border-white/5">
-              {[34, 46, 42, 58, 64, 71, 79, 96].map((height, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div
-                    className={`w-full rounded-t transition-all duration-700 ${
-                      i === 7 ? "bg-[#4fe3ea] shadow-[0_0_12px_#4fe3ea]" : "bg-white/10"
-                    }`}
-                    style={{ height: `${height}%` }}
-                  />
-                </div>
-              ))}
+            <div>
+              <div className="barchart" aria-hidden="true">
+                <div className="bar" style={{ height: "34%" }} />
+                <div className="bar" style={{ height: "46%" }} />
+                <div className="bar" style={{ height: "42%" }} />
+                <div className="bar" style={{ height: "58%" }} />
+                <div className="bar" style={{ height: "64%" }} />
+                <div className="bar" style={{ height: "71%" }} />
+                <div className="bar" style={{ height: "79%" }} />
+                <div className="bar hot" style={{ height: "96%" }} />
+              </div>
+              <div className="barchart-meta">
+                <span>run 01</span>
+                <span>judge pass rate, by run · latest</span>
+              </div>
             </div>
-            <div className="mt-2 flex items-center justify-between font-mono text-[10px] text-[#5b6464]">
-              <span>run 01</span>
-              <span>judge pass rate, by run · latest (96%)</span>
-            </div>
-            <Link to="/harness" className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-[#4fe3ea] hover:underline">
-              Inside the harness →
-            </Link>
-          </DoubleBezelCard>
+            <p><Link to="/harness">Inside the harness →</Link></p>
+          </div>
 
-          {/* Bento Card 4: Research-Grade Labs (Ramp Metrics) */}
-          <DoubleBezelCard>
-            <div className="font-mono text-xs text-[#4fe3ea]">⚗ RESEARCH-GRADE LABS</div>
-            <h3 className="mt-2 text-xl font-bold text-white">
-              Frontier techniques on the hardware you own.
-            </h3>
-            <p className="mt-2 text-sm text-[#8b9595]">
-              Quantization, speculative decoding and KV-cache work — running against your own hardware without paying cloud tolls.
+          <div className="panel infra-card">
+            <span className="card-tag">⚗ Research-Grade Labs</span>
+            <h3>Frontier techniques on the hardware you own.</h3>
+            <p>
+              Quantization, speculative decoding and KV-cache work —
+              running against your own hardware without paying cloud tolls.
             </p>
-            <div className="mt-6 grid grid-cols-3 gap-3 font-mono text-center">
-              <div className="rounded-xl border border-white/5 bg-black/40 p-3">
-                <div className="text-xl font-bold text-[#4fe3ea]">
-                  <NumberTicker value={25.2} decimals={1} suffix=" tok/s" />
-                </div>
-                <div className="text-[10px] text-[#5b6464] mt-1">decode rate</div>
+            <div className="stat3">
+              <div className="s">
+                <span className="n">25.2 <em>tok/s</em></span>
+                <span className="c">decode rate</span>
               </div>
-              <div className="rounded-xl border border-white/5 bg-black/40 p-3">
-                <div className="text-xl font-bold text-white">8.8 / 16 GB</div>
-                <div className="text-[10px] text-[#5b6464] mt-1">unified RAM</div>
+              <div className="s">
+                <span className="n">8.8 / 16 <em>GB</em></span>
+                <span className="c">unified RAM</span>
               </div>
-              <div className="rounded-xl border border-white/5 bg-black/40 p-3">
-                <div className="text-xl font-bold text-[#3ddc84]">230 / 256</div>
-                <div className="text-[10px] text-[#5b6464] mt-1">ctx window</div>
+              <div className="s">
+                <span className="n">230 / 256</span>
+                <span className="c">ctx window</span>
               </div>
             </div>
-            <Link to="/research-hub" className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-[#4fe3ea] hover:underline">
-              The research preprints →
-            </Link>
-          </DoubleBezelCard>
-
+            <p><Link to="/research-hub">The research preprints →</Link></p>
+          </div>
         </div>
       </section>
 
-      {/* Section 3.0: The state of AI, one API call away */}
-      <section className="relative mx-auto max-w-6xl px-4 py-24 border-t border-white/5">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-12">
-          <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#5b6464]">
-              <span className="text-[#4fe3ea]">3.0</span>
-              <span>Local API &amp; SDK</span>
-            </div>
-            <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-white">
-              The state of AI, <span className="text-[#8b9595] font-light">one API call away.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-[#8b9595]">
-            Run missions programmatically from your existing toolchains. Compatible with OpenAI format,
-            augmented with deterministic judge gates and immutable receipt headers.
-          </p>
+      {/* ---- 3.0 Research Hub ---- */}
+      <section>
+        <SectionHead
+          num="3.0" label="Research Hub"
+          title="The state of AI," tone="one API call away."
+        >
+          An open hub indexing the newest preprints and literature across
+          artificial intelligence — built API-first, so your agents can pull,
+          search and stream the literature the way they pull any other tool.
+        </SectionHead>
+        <div className="head-actions">
+          <Link className="btn btn-white" to="/research-hub">Open Research Hub</Link>
+          <Link className="btn" to="/research-hub#architecture">API reference — planned</Link>
         </div>
 
-        <InteractiveApiSandbox />
-      </section>
-
-      {/* Section 4.0: Shipped in the open, every week */}
-      <section className="relative mx-auto max-w-6xl px-4 py-24 border-t border-white/5">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 pb-12">
-          <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#5b6464]">
-              <span className="text-[#4fe3ea]">4.0</span>
-              <span>Changelog</span>
+        <div className="research-grid">
+          <div className="panel paper-panel">
+            <div className="paper-search">
+              <span>Search preprints, authors, techniques…</span>
+              <span className="kbd">⌘K</span>
             </div>
-            <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-white">
-              Shipped in the open, <span className="text-[#8b9595] font-light">every week.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-[#8b9595]">
-            We build in public with weekly cadence. When a run fails, the failure is named;
-            when a commit lands, the diff is linked.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {[
-            {
-              version: "v0.1.0",
-              date: "OCT 20, 2026",
-              title: "MadMind Initial Bench",
-              detail: "Dual-lane harness live with Qwen local planner and Muse Spark contributor behind formal gate.",
-              hash: "0x7bf812",
-            },
-            {
-              version: "v0.0.9",
-              date: "OCT 14, 2026",
-              title: "Pure rust-refactor MCP server",
-              detail: "14 tools released covering AST traversal, clippy automation, and transactional diff rollback.",
-              hash: "0x3fe19b",
-            },
-            {
-              version: "v0.0.8",
-              date: "OCT 07, 2026",
-              title: "Quantization sweep for M2 Apple Silicon",
-              detail: "Verified Q4_K_M vs Q5_K_M perplexity curve. Zero loss on coding and logic benchmarks.",
-              hash: "0x9c42ff",
-            },
-          ].map((item) => (
-            <div
-              key={item.version}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#080a0e]/60 p-4 font-mono text-xs backdrop-blur-xl transition-all hover:border-[#4fe3ea]/30"
-            >
-              <div className="flex items-center gap-3">
-                <span className="rounded bg-white/10 px-2 py-0.5 text-white font-bold">{item.version}</span>
-                <span className="text-[#5b6464]">{item.date}</span>
-                <span className="text-[#e9eded] font-medium">{item.title}</span>
+            <div className="paper-filters">
+              <span className="pfilter on">All</span>
+              <span className="pfilter">cs.AI</span>
+              <span className="pfilter">cs.CL</span>
+              <span className="pfilter">cs.LG</span>
+              <span className="pfilter">quantization</span>
+            </div>
+            <div className="paper-row">
+              <div className="pt">BitNet a4.8: 4-bit Activations for 1-bit LLMs</div>
+              <div className="pm">
+                <span>arXiv:2411.04965 · 12 Nov 2024</span>
+                <span className="pill pill-verified">Indexed</span>
               </div>
-              <div className="text-[11px] text-[#8b9595] sm:max-w-md truncate">{item.detail}</div>
-              <span className="text-[10px] text-[#4fe3ea] font-mono">{item.hash}</span>
             </div>
-          ))}
-        </div>
+            <div className="paper-row">
+              <div className="pt">DeepSeek-R1: Incentivizing Reasoning in LLMs via Reinforcement Learning</div>
+              <div className="pm">
+                <span>arXiv:2501.12948 · 22 Jan 2025</span>
+                <span className="pill pill-verified">Indexed</span>
+              </div>
+            </div>
+            <div className="paper-row">
+              <div className="pt">The Geometry of Truth: Emergent Linear Representations</div>
+              <div className="pm">
+                <span>arXiv:2310.06824 · 10 Oct 2023</span>
+                <span className="pill pill-verified">Indexed</span>
+              </div>
+            </div>
+          </div>
 
-        {/* Newsletter / Launch Waitlist Box */}
-        <div className="mt-16 mx-auto max-w-xl text-center">
-          <DoubleBezelCard>
-            <h3 className="text-xl font-bold text-white">Get updates on releases and research.</h3>
-            <p className="mt-2 text-xs text-[#8b9595]">
-              No marketing noise. One email per major milestone or benchmark release.
-            </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert("Thank you. You're on the launch list.");
-              }}
-              className="mt-5 flex gap-2"
-            >
-              <input
-                type="email"
-                required
-                placeholder="developer@domain.com"
-                className="flex-1 rounded-full border border-white/15 bg-black/60 px-4 py-2.5 font-mono text-xs text-white placeholder-[#5b6464] focus:border-[#4fe3ea] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-white px-5 py-2.5 font-mono text-xs font-semibold text-black hover:bg-[#e9eded] transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
-          </DoubleBezelCard>
+          <div className="panel api-panel">
+            <div className="codeblock">
+              <span className="tok-a"># Pull a paper with provenance</span>{"\n"}
+              curl https://api.atomalabs.com/v1/papers/2411.04965 \{"\n"}
+              {"  "}-H <span className="tok-t">"Authorization: Bearer $ATOMA_KEY"</span> \{"\n"}
+              {"  "}-H <span className="tok-t">"Accept: application/json"</span>{"\n\n"}
+              <span className="tok-a"># Response: metadata, abstract, citations</span>{"\n"}
+              {"{"}{"\n"}
+              {"  "}<span className="tok-k">"id"</span>: <span className="tok-t">"2411.04965"</span>,{"\n"}
+              {"  "}<span className="tok-k">"title"</span>: <span className="tok-t">"BitNet a4.8: 4-bit Activations..."</span>,{"\n"}
+              {"  "}<span className="tok-k">"pdf_url"</span>: <span className="tok-t">"https://arxiv.org/pdf/2411.04965"</span>,{"\n"}
+              {"  "}<span className="tok-k">"status"</span>: <span className="tok-s">"indexed"</span>{"\n"}
+              {"}"}
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* ---- 4.0 Changelog ---- */}
+      <section id="changelog">
+        <SectionHead
+          num="4.0" label="Changelog"
+          title="Shipped in the open," tone="every week."
+        >
+          We build in public with weekly cadence. When a run fails, the failure
+          is named; when a commit lands, the diff is linked.
+        </SectionHead>
+
+        <div className="log-list">
+          <div className="log-row">
+            <div className="ldate">2026-10-20</div>
+            <div>
+              <h3>MadMind Initial Bench</h3>
+              <p>
+                Dual agentic harness open for testing: a builder lane takes the
+                first pass, a contributor lane reviews, and deterministic
+                judges decide when a step is done.
+              </p>
+            </div>
+          </div>
+          <div className="log-row">
+            <div className="ldate">2026-10-14</div>
+            <div>
+              <h3>Pure rust-refactor MCP server</h3>
+              <p>
+                Dropped in 14 tools covering workspace filesystem, AST parsing,
+                and cargo check/clippy verification passes.
+              </p>
+            </div>
+          </div>
+          <div className="log-row">
+            <div className="ldate">2026-10-07</div>
+            <div>
+              <h3>Quantization sweep for M2 Apple Silicon</h3>
+              <p>
+                Benchmarked Q4_K_M vs Q5_K_M perplexity drift under llama.cpp
+                metal runtime. Validated 25.2 tok/s decode performance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- CTA band: luminous panel on ellipse glow ---- */}
+      <div className="cta-band">
+        <div className="cta-luminous" aria-hidden="true" />
+        <div className="cta-actions">
+          <Link className="btn btn-white" to="/signup">Sign up for v1</Link>
+          <Link className="btn" to="/apps">Explore the apps</Link>
+        </div>
+        <p className="cta-note">
+          One email when the native builds and API keys ship, and nothing
+          before. Data practices: tools run locally by default and do not
+          transmit prompts, code or telemetry without explicit opt-in.
+        </p>
+      </div>
     </div>
   );
 }

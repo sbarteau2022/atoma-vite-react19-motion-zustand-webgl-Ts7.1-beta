@@ -202,7 +202,7 @@ patched 7.30.1+ release to address development-tool dependency advisories.
   profile, bookmark write, logout, and revoked-session rejection passed. Temporary
   audit account/bookmark records were removed afterward.
 - Five browser checks also passed against the first production deployment.
-  Their AI response is mocked; real AI was verified separately via its API.
+  All six browser checks then passed against the final GitHub-deployed production site (19.1 seconds). Browser AI responses are mocked; real AI was verified separately via its API.
 - Desktop/mobile screenshots live under output/. The animated renderer is
   lazy-loaded (about 915 KB raw / 243 KB gzip); this remains a performance cost,
   not a claim of universal smoothness or low-end-device qualification.
@@ -248,7 +248,7 @@ execution, security isolation and product telemetry remain outside this release.
 
 Initial production deployment: https://f114d1af.atoma-labs-site.pages.dev
 Canonical: https://atoma-labs-site.pages.dev
-The final GitHub release is recorded below after CI completion. Rollback by
+GitHub release succeeded for code commit `1943efe`: https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40133698260 . Verification completed in 58 seconds; deployment and remote migration checks completed in 32 seconds. Canonical production health returned all bindings healthy afterward. Rollback by
 promoting a previous Pages deployment or rebuilding a previous commit. Initial
 migrations are additive; avoid destructive schema rollback. Monitor `/api/health`,
 Pages release results, and Workers AI usage. No custom domain was requested.

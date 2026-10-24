@@ -231,7 +231,7 @@ Required repository Actions secrets:
   configured in GitHub encrypted secrets. Wrangler's local OAuth token is not copied to CI.
 
 A direct authenticated Wrangler deployment is live. Both GitHub release secrets
-are configured; see the launch audit for the latest automatic release evidence.
+are configured. [Automatic release 40133698260](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40133698260) passed both verification and deployment.
 
 Manual release after verification:
 

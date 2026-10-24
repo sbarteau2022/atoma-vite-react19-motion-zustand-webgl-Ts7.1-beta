@@ -1,85 +1,28 @@
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { BookOpen, Braces, Check, ChevronDown, Clipboard, ExternalLink, FileText, KeyRound, MessageCircle, Search, Send, Sparkles } from "lucide-react";
+
+type Paper = { id: string; title: string; authors: string; source: string; date: string; tags: string[]; summary: string; abstract: string };
+const papers: Paper[] = [
+  { id:"arXiv:2501.12948", title:"DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning", authors:"DeepSeek-AI", source:"arXiv", date:"Jan 2025", tags:["Reasoning","RL","Open weights"], summary:"The authors study how reinforcement learning can encourage language models to produce longer, more structured reasoning. They report that reasoning behavior can emerge through outcome-based rewards, while also describing distillation into smaller models.", abstract:"We introduce DeepSeek-R1, a reasoning model trained with large-scale reinforcement learning. DeepSeek-R1-Zero demonstrates that reasoning capabilities can be incentivized through pure reinforcement learning, without supervised fine-tuning as a preliminary step. DeepSeek-R1 incorporates cold-start data before reinforcement learning and achieves performance comparable to OpenAI-o1 across a range of tasks. We further show that the reasoning patterns can be distilled into smaller dense models." },
+  { id:"arXiv:2411.04965", title:"BitNet a4.8: 4-bit Activations for 1-bit LLMs", authors:"Microsoft Research", source:"arXiv", date:"Nov 2024", tags:["Quantization","Inference","Efficiency"], summary:"A low-bit inference approach pairing 1-bit weights with 4-bit activations. The paper explores reducing memory and compute needs while maintaining useful language-model quality.", abstract:"We present a quantization recipe for 1-bit large language models that uses 4-bit activations. The method combines a nonlinear transformation with a quantization function to reduce activation precision while preserving model quality across evaluated tasks." },
+  { id:"bioRxiv:2024.06.18.599512", title:"A foundation model for scientific discovery across biological scales", authors:"Research collaboration · bioRxiv", source:"bioRxiv", date:"Jun 2024", tags:["Biology","Foundation models","Preprint"], summary:"A preprint exploring how learned representations can connect biological measurements across scales. Treat findings as preliminary until peer review and replication.", abstract:"This preprint investigates representation learning across heterogeneous biological data. The authors describe a model and evaluation framework for connecting molecular, cellular, and tissue-level observations. Results are preliminary and should be interpreted in the context of the paper's methods and limitations." },
+  { id:"research:frontier-014", title:"Scaling test-time compute for reliable language model reasoning", authors:"Frontier research digest · source links included", source:"Research digest", date:"Updated weekly", tags:["Inference-time compute","Reasoning"], summary:"A source-linked reading guide comparing approaches that spend more inference-time computation on difficult questions. The digest separates published evidence from open questions.", abstract:"This curated digest maps selected papers and technical reports on inference-time compute. It compares search, sampling, verification, and process supervision, and links each claim to its source. It is an editorial guide, not a primary research paper." },
+];
+const sources = ["All sources","arXiv","bioRxiv","Google DeepMind","OpenAI","Anthropic","Meta Superintelligence Labs","DeepSeek","Qwen"];
+const sourceMarks: Record<string,string> = { arXiv:"a.",bioRxiv:"b.","Google DeepMind":"G",OpenAI:"◎",Anthropic:"A", "Meta Superintelligence Labs":"M",DeepSeek:"DS",Qwen:"Q" };
 
 export default function ResearchHub() {
-  return (
-    <>
-      <div className="page-head">
-        <div className="micro">Research Hub</div>
-        <h1>The state of AI, one API call away.</h1>
-        <p className="lede">
-          An open hub indexing the newest preprints and literature across
-          artificial intelligence — built API-first, so your agents can pull,
-          search and stream the literature the way they pull any other tool.
-        </p>
-        <p style={{ marginTop: "1.2rem" }}>
-          <span className="pill pill-roadmap">In build</span>{" "}
-          <span className="pill pill-verified">Free for anyone, at launch</span>
-        </p>
-      </div>
+  const [query,setQuery]=useState(""); const [source,setSource]=useState("All sources"); const [selectedId,setSelectedId]=useState(papers[0].id); const [prompt,setPrompt]=useState(""); const [chat,setChat]=useState<string[]>(["Ask about the paper, request a plain-language explanation, or point to a passage that feels unclear. Answers in this preview are illustrative; connect a model provider to enable grounded responses."]); const [apiOpen,setApiOpen]=useState(false); const [copied,setCopied]=useState(false);
+  const filtered=useMemo(()=>papers.filter(p=>(source==="All sources"||p.source===source)&&`${p.title} ${p.authors} ${p.tags.join(" ")} ${p.id}`.toLowerCase().includes(query.toLowerCase())),[query,source]);
+  const selected=filtered.find(p=>p.id===selectedId)??filtered[0]??papers[0];
+  const ask=()=>{if(!prompt.trim())return;const q=prompt.trim();setChat(c=>[...c,q,`A helpful way to read “${selected.title}” is to start with its central question, then check which evaluation supports the authors’ claim. This interface is a demo: connect an AI provider and the selected manuscript context for a grounded answer.`]);setPrompt("");};
+  const copyApi=async()=>{await navigator.clipboard?.writeText("curl https://api.atomalabs.com/v1/papers?q=reasoning -H 'Authorization: Bearer $ATOMA_API_KEY'");setCopied(true);window.setTimeout(()=>setCopied(false),1600);};
+  return <div className="research-page"><section className="research-hero"><div className="research-eyebrow"><Sparkles size={13}/> RESEARCH HUB <span>PREVIEW</span></div><h1>Modern AI research,<br/><em>in one place.</em></h1><p>Find preprints, literature, proofs, working examples, and plain-language guides. Read the source, inspect its evidence, and ask better questions.</p><div className="research-hero-actions"><a href="#reader" className="research-primary"><Search size={14}/> Explore the library</a><button onClick={()=>setApiOpen(v=>!v)}><KeyRound size={14}/> Get an API key <span>↗</span></button></div><div className="research-source-strip"><span>COLLECTING FROM</span>{sources.slice(1).map(s=><button key={s} onClick={()=>{setSource(s);document.getElementById("reader")?.scrollIntoView({behavior:"smooth"})}}><i>{sourceMarks[s]}</i>{s}</button>)}</div></section>
+    <section className="research-console" id="reader"><div className="research-console-head"><div><span className="research-live-dot"/> RESEARCH LIBRARY <small>CURATED SOURCES · DEMO CATALOG</small></div><button onClick={()=>setApiOpen(v=>!v)}><Braces size={13}/> API access</button></div><div className="research-workspace"><aside className="research-results"><div className="research-search"><Search size={14}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search papers, topics, authors…"/><kbd>⌘ K</kbd></div><div className="research-filters">{["All sources","arXiv","bioRxiv"].map(s=><button key={s} className={source===s?"on":""} onClick={()=>setSource(s)}>{s}</button>)}<button className="filter-more" onClick={()=>setSource(source==="All sources"?"Google DeepMind":"All sources")}>More <ChevronDown size={11}/></button></div><div className="research-result-count">{filtered.length} MANUSCRIPTS <span>Newest first</span></div><div className="paper-results">{filtered.length?filtered.map(p=><button key={p.id} className={`research-paper ${selected.id===p.id?"active":""}`} onClick={()=>setSelectedId(p.id)}><span className="paper-source"><i>{sourceMarks[p.source]??"R"}</i>{p.source}<small>{p.date}</small></span><b>{p.title}</b><span className="paper-authors">{p.authors}</span><span className="paper-tags">{p.tags.slice(0,2).map(t=><i key={t}>{t}</i>)}</span></button>):<div className="research-empty">No matching entries in this demo catalog.</div>}</div><div className="catalog-note"><span>ⓘ</span> Source availability and licensing vary. Preprints may not be peer reviewed.</div></aside><section className="manuscript-reader"><div className="reader-toolbar"><span><BookOpen size={13}/> MANUSCRIPT READER</span><div><button title="Copy citation" onClick={copyApi}><Clipboard size={13}/></button><button title="Open source" onClick={()=>{}}><ExternalLink size={13}/></button></div></div><div className="reader-scroll"><div className="reader-breadcrumb">{selected.source} <span>/</span> {selected.id}</div><h2>{selected.title}</h2><div className="reader-byline">{selected.authors} <span>·</span> {selected.date}</div><div className="reader-labels">{selected.tags.map(t=><span key={t}>{t}</span>)}<span className="preprint-label">PREPRINT / SOURCE-LINKED</span></div><div className="reader-tabs"><button className="active"><FileText size={12}/> Abstract</button><button><Braces size={12}/> Code &amp; data <span>—</span></button><button>References</button></div><article><h3>Abstract</h3><p>{selected.abstract}</p><h3>Plain-language summary</h3><p>{selected.summary}</p><div className="reader-callout"><Sparkles size={14}/><span><b>Reading carefully</b><br/>This is a preprint or curated research digest. Check the source, methods, and limitations before treating claims as established results.</span></div><h3>What to inspect</h3><ul><li>What question does the work answer?</li><li>Which evidence supports its main result?</li><li>What limitations or assumptions do the authors identify?</li></ul></article></div><div className="reader-footer"><span>Source record <b>{selected.id}</b></span><button onClick={()=>setChat(c=>[...c,"Help me understand the main claim in plain language.",`The central idea is: ${selected.summary} The full paper and its limitations should be checked before relying on this summary.`])}><MessageCircle size={13}/> Explain this paper</button></div></section><aside className="research-assistant"><div className="assistant-head"><span className="assistant-icon"><Sparkles size={14}/></span><div><b>Research companion</b><small>UNDERSTAND THE PAPER</small></div><span className="assistant-demo">DEMO</span></div><div className="assistant-context"><FileText size={12}/><span>Context: <b>{selected.title}</b></span></div><div className="assistant-messages">{chat.map((m,i)=><div key={i} className={i%2===1?"assistant-user":"assistant-reply"}>{i===0&&<small>ATOMA RESEARCH</small>}{m}</div>)}</div><div className="assistant-suggestions"><span>TRY ASKING</span>{["Explain the main claim","What are the limitations?","Define a confusing term"].map(q=><button key={q} onClick={()=>setPrompt(q)}>{q} ↗</button>)}</div><div className="assistant-compose"><textarea value={prompt} onChange={e=>setPrompt(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask()}}} placeholder="Ask about this manuscript…"/><div><small>Answers should cite the selected source</small><button onClick={ask} aria-label="Send question"><Send size={13}/></button></div></div><div className="assistant-disclaimer">Demo responses are illustrative. Provider connection required for grounded AI answers.</div></aside></div><div className="research-console-foot"><span>RESEARCH HUB <i>·</i> PUBLIC SOURCES</span><span>Provenance attached <b>●</b></span></div></section>
+    <section className="research-api"><div><span className="research-eyebrow"><Braces size={13}/> BUILT FOR PEOPLE AND AGENTS</span><h2>Search by hand.<br/><em>Pull by API.</em></h2><p>One catalog for literature discovery in the reader or directly in your tools. API access is planned; keys and source coverage will be published as they become available.</p><button onClick={()=>setApiOpen(v=>!v)}><KeyRound size={14}/> {apiOpen?"Hide API preview":"Explore API access"}</button></div><div className="api-code"><div><span><i/> EXAMPLE REQUEST</span><button onClick={copyApi}>{copied?<Check size={13}/>:<Clipboard size={13}/>} {copied?"Copied":"Copy"}</button></div><pre><code><span>curl</span> https://api.atomalabs.com/v1/papers?q=reasoning \
+  -H <i>"Authorization: Bearer $ATOMA_API_KEY"</i>
 
-      <section className="prose-section">
-        <h2>What it will be</h2>
-        <div className="grid3">
-          <div className="panel feat">
-            <h3>An index with a memory</h3>
-            <p>New preprints and literature, ingested continuously and kept —
-            not a search box over someone else's snapshot, but a corpus with
-            provenance: where each paper came from, when it arrived, what it
-            cites.</p>
-          </div>
-          <div className="panel feat">
-            <h3>API-first, agents native</h3>
-            <p>Search, fetch and stream endpoints designed for agent
-            consumption: stable ids, structured metadata, PDFs at predictable
-            URLs. The human web view is the same API wearing a face.</p>
-          </div>
-          <div className="panel feat">
-            <h3>Free for anyone</h3>
-            <p>The Hub is the commons layer of the lab. Keys are free at
-            launch; the index is built from publicly available preprints
-            under their original licenses.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="prose-section" id="architecture">
-        <h2>How it's being built <span className="pill pill-roadmap">The plan, labeled as plan</span></h2>
-        <p>
-          The Hub runs on the same edge stack as this site. Each piece below
-          is the planned production shape; the build is underway, and this
-          table will be updated as pieces land.
-        </p>
-        <div className="panel" style={{ marginTop: "1.2rem" }}>
-          <table className="tele arch-table">
-            <tbody>
-              <tr>
-                <td>Ingestion spine</td>
-                <td>Cloudflare Workers + Queues</td>
-                <td>Pulls arXiv preprints nightly across cs.AI, cs.CL, cs.LG. Computes content hashes and extracts citation graphs.</td>
-                <td><span className="pill pill-roadmap">In build</span></td>
-              </tr>
-              <tr>
-                <td>Vector catalog</td>
-                <td>Vectorize + Local Embeddings</td>
-                <td>Dense and sparse vector indices enabling hybrid semantic and exact identifier retrieval.</td>
-                <td><span className="pill pill-roadmap">In build</span></td>
-              </tr>
-              <tr>
-                <td>Document store</td>
-                <td>R2 Object Storage</td>
-                <td>Cold storage for PDFs, parsed Markdown representations, and LaTeX source archives.</td>
-                <td><span className="pill pill-roadmap">In build</span></td>
-              </tr>
-              <tr>
-                <td>Agent SDK</td>
-                <td>TypeScript &amp; Python</td>
-                <td>Typed query builder and MCP tool wrapper for drop-in agent ingestion.</td>
-                <td><span className="pill pill-roadmap">In build</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </>
-  );
+<span># Structured metadata + source provenance</span>
+<span># Manuscript, summary, references, code links</span></code></pre>{apiOpen&&<div className="api-key-note"><KeyRound size={14}/> API keys are not available yet. Access will open with the Research Hub API launch.</div>}</div></section>
+  </div>;
 }

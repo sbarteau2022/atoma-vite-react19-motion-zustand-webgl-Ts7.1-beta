@@ -16,7 +16,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <header className="site-header">
         <Link to="/" className="brand">
           <img src="/atoma-mark.svg" alt="" className="brand-mark" />
-          Atoma&nbsp;<b>Labs</b>
+          <span>Atoma&nbsp;<b>Labs</b></span>
         </Link>
         <nav className="site-nav">
           <Link to="/mission">Mission</Link>
@@ -25,10 +25,11 @@ function Layout({ children }: { children: React.ReactNode }) {
           <Link to="/tooling">Tools &amp; Skills</Link>
           <Link to="/plugins">MCP</Link>
           <Link to="/research-hub">Research Hub</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/login" className="nav-login">Login</Link>
-          <Link to="/signup" className="btn-light">Sign Up</Link>
         </nav>
+        <div className="header-actions">
+          <Link to="/login" className="nav-login">Login</Link>
+          <Link to="/signup" className="btn-signup">Sign Up</Link>
+        </div>
       </header>
       <main>{children}</main>
       <footer className="site-footer">

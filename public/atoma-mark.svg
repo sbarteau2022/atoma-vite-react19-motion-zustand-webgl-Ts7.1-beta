@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Mark B "Tetra": a wireframe tetrahedron. The A of Atoma as an
+       engineered solid: outer triangle, inner inverted triangle, hub at
+       the centroid, one basin node riding the top edge. -->
+  <g stroke="#4fe3ea" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M32 7 L57 52 L7 52 Z"/>
+    <path d="M32 7 L32 34 M32 34 L7 52 M32 34 L57 52" opacity="0.55" stroke-width="1.6"/>
+  </g>
+  <circle cx="32" cy="38.5" r="4.4" fill="#f0a832"/>
+  <circle cx="44.5" cy="29.5" r="3" fill="#4fe3ea"/>
+</svg>

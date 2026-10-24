@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Atoma mark, round 1: three orbits around one hub.
+       Basins around the one mind; an atom that is also a torus that is also a swarm. -->
+  <g stroke-width="2.6" stroke-linecap="round">
+    <ellipse cx="32" cy="32" rx="26" ry="10.5" stroke="#4fe3ea" transform="rotate(-24 32 32)"/>
+    <ellipse cx="32" cy="32" rx="26" ry="10.5" stroke="#4fe3ea" opacity="0.55" transform="rotate(38 32 32)"/>
+    <ellipse cx="32" cy="32" rx="26" ry="10.5" stroke="#f0a832" transform="rotate(96 32 32)"/>
+  </g>
+  <circle cx="32" cy="32" r="5.2" fill="#f0a832"/>
+  <circle cx="32" cy="32" r="9.5" stroke="#e9eded" stroke-opacity="0.35" stroke-width="1.2"/>
+</svg>

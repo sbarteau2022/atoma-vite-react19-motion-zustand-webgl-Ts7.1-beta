@@ -199,3 +199,28 @@ request limits. AI has per-IP hourly and global daily budgets. Account sessions
 use Secure HttpOnly SameSite cookies. Editorial research notes are identified
 as notes, with original source links. Auth does not imply email verification.
 GitHub CI gates deployment on types, lint, API tests, browser tests and build.
+
+## Account recovery and email verification
+
+Account access retains the existing obsidian form layout. Sign-in offers a
+password recovery link; account view shows verified/pending status and resend.
+`/forgot-password` requests a reset. `/reset-password` and `/verify-email` read
+single-use tokens from URL fragments, immediately remove the fragment, and
+require an explicit form/button action. GET requests never consume tokens.
+Links are constructed from configured AUTH_PUBLIC_ORIGIN, not request headers.
+Tokens contain 256 random bits and only their SHA-256 hashes are stored. Verify
+links expire after 24 hours; reset links after 30 minutes. Atomic D1 batches
+consume each token once, update the account, and revoke sessions on reset.
+Resends retain earlier unexpired links to prevent unauthenticated invalidation;
+successful consumption invalidates sibling tokens of that purpose. Per-address
+and global mail budgets supplement per-IP limits. Account requests use generic
+responses so normal recovery does not disclose registration status. Verification
+marks email ownership, not personal identity or product access eligibility.
+Mail delivery requires an authorized sender through Gmail SMTP or a Cloudflare Email binding.
+Until those prerequisites exist, the UI explicitly reports delivery unavailable.
+
+Temporary account sender and reply-to: sbarteau2022@gmail.com, via Gmail SMTP
+over certificate-validated TLS on port 465. Nodemailer 10 ESM with nodejs_compat
+provides the transport. GMAIL_APP_PASSWORD lives only in a production Cloudflare
+secret. Missing authorization disables delivery. The original Cloudflare Email
+binding adapter remains available for a later verified business domain.

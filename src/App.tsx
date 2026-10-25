@@ -1,6 +1,7 @@
 import { AiWidget } from "./components/AiWidget";
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+const AccountEmail = React.lazy(() => import("./pages/AccountEmail.tsx").then(module=>({default:module.AccountEmail})));
 const Home = React.lazy(() => import("./pages/Home.tsx"));
 const Mission = React.lazy(() => import("./pages/Mission.tsx"));
 const Apps = React.lazy(() => import("./pages/Apps.tsx"));
@@ -122,10 +123,13 @@ export default function App() {
           <Route path="/research-hub" element={<ResearchHub />} />
           <Route path="/brand-kit" element={<BrandKit />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/forgot-password" element={<AccountEmail key="forgot" mode="forgot"/>} />
+          <Route path="/reset-password" element={<AccountEmail key="reset" mode="reset"/>} />
+          <Route path="/verify-email" element={<AccountEmail key="verify" mode="verify"/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/how-it-works" element={<Navigate to="/harness" replace />} />
-          <Route path="/privacy" element={<div className="page-head"><div className="micro">DATA PRACTICES · OCTOBER 24, 2026</div><h1>Your work deserves clear boundaries.</h1><p>AI questions are processed by Cloudflare Workers AI. We do not store chat history. Avoid submitting confidential information. Account email, display name, salted password hash, and session records are held in Cloudflare D1. Sessions expire after seven days. Contact submissions are stored for the builder to review; no email delivery is promised. Research bookmarks are tied to your account. No advertising analytics are installed. Request account or message deletion through the contact page. Accounts currently do not support email verification or password recovery; use a unique password.</p><Link to="/contact">Contact the builder ↗</Link></div>} />
+          <Route path="/privacy" element={<div className="page-head"><div className="micro">DATA PRACTICES · OCTOBER 24, 2026</div><h1>Your work deserves clear boundaries.</h1><p>AI questions are processed by Cloudflare Workers AI. We do not store chat history. Avoid submitting confidential information. Account email, display name, salted password hash, and session records are held in Cloudflare D1. Sessions expire after seven days. Contact submissions are stored for the builder to review; no email delivery is promised. Research bookmarks are tied to your account. No advertising analytics are installed. Request account or message deletion through the contact page. Account verification and password reset use expiring one-time email links when email delivery is configured; use a unique password.</p><Link to="/contact">Contact the builder ↗</Link></div>} />
           <Route path="*" element={<div className="page-head"><h1>This path is still unbuilt.</h1><p>Head back to the command center.</p><Link className="btn btn-white" to="/">Return home ↗</Link></div>} />
           <Route path="/data" element={<Navigate to="/research-hub" replace />} />
         </Routes>

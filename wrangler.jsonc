@@ -18,5 +18,14 @@
       "database_id": "dce06c8f-9ab6-4bd6-9c18-ed5c3a1ea78b",
       "migrations_dir": "migrations/research"
     }
+  ],
+  "vars": {
+    "AUTH_PUBLIC_ORIGIN": "https://atoma-labs-site.pages.dev",
+    "AUTH_MAIL_PROVIDER": "gmail",
+    "AUTH_EMAIL_FROM": "sbarteau2022@gmail.com",
+    "AUTH_EMAIL_REPLY_TO": "sbarteau2022@gmail.com"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
   ]
 }

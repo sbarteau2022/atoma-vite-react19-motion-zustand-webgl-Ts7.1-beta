@@ -1,13 +1,31 @@
 ---
 title: "Atoma website — Cloudflare launch"
 document_type: "implementation"
-version: "1.0.0"
+version: "1.1.0"
 date: "2026-10-24T21:20:00Z"
 implementation_date: "2026-10-24T21:14:00Z"
 author: "sbarteau2022 / Codex"
 reviewers: []
 status: "review"
 related_files:
+  - path: "tests/accountMail.test.mjs"
+    lines: "1-9"
+    role: "supporting"
+  - path: "src/utils/accountActions.ts"
+    lines: "1-13"
+    role: "supporting"
+  - path: "src/pages/AccountEmail.tsx"
+    lines: "1-17"
+    role: "supporting"
+  - path: "server/accountMail.js"
+    lines: "1-34"
+    role: "supporting"
+  - path: "migrations/profiles/0002_account_email.sql"
+    lines: "1-11"
+    role: "supporting"
+  - path: "docs/ACCOUNT_EMAIL.md"
+    lines: "1-213"
+    role: "supporting"
   - path: ".github/workflows/deploy.yml"
     lines: "1-50"
     role: "config"
@@ -15,16 +33,16 @@ related_files:
     lines: "1-33"
     role: "supporting"
   - path: "DESIGN.md"
-    lines: "1-201"
+    lines: "1-226"
     role: "supporting"
   - path: "README.md"
-    lines: "1-267"
+    lines: "1-311"
     role: "supporting"
   - path: "docs/LAUNCH_AUDIT.md"
     lines: "1-316"
     role: "supporting"
   - path: "functions/api/[[path]].js"
-    lines: "1-108"
+    lines: "1-172"
     role: "supporting"
   - path: "index.html"
     lines: "1-21"
@@ -48,10 +66,10 @@ related_files:
     lines: "0"
     role: "supporting"
   - path: "package-lock.json"
-    lines: "1-4350"
+    lines: "1-4360"
     role: "config"
   - path: "package.json"
-    lines: "1-48"
+    lines: "1-49"
     role: "config"
   - path: "playwright.config.ts"
     lines: "1-2"
@@ -69,7 +87,7 @@ related_files:
     lines: "1-1"
     role: "supporting"
   - path: "src/App.tsx"
-    lines: "1-135"
+    lines: "1-139"
     role: "supporting"
   - path: "src/components/AiWidget.tsx"
     lines: "1-12"
@@ -96,13 +114,13 @@ related_files:
     lines: "1-105"
     role: "supporting"
   - path: "src/pages/Auth.tsx"
-    lines: "1-11"
+    lines: "1-13"
     role: "supporting"
   - path: "src/pages/BrandKit.tsx"
     lines: "1-33"
     role: "supporting"
   - path: "src/pages/Contact.tsx"
-    lines: "1-81"
+    lines: "1-83"
     role: "supporting"
   - path: "src/pages/Harness.tsx"
     lines: "1-119"
@@ -120,13 +138,13 @@ related_files:
     lines: "1-74"
     role: "supporting"
   - path: "tests/api.test.mjs"
-    lines: "1-19"
+    lines: "1-34"
     role: "test"
   - path: "tests/browser/site.spec.ts"
-    lines: "1-7"
+    lines: "1-11"
     role: "test"
   - path: "wrangler.jsonc"
-    lines: "1-22"
+    lines: "1-31"
     role: "config"
 related_documents: ["DESIGN.md", "docs/LAUNCH_AUDIT.md"]
 related_issues: []
@@ -203,6 +221,9 @@ Automated ingestion and full-paper retrieval are not implemented.
 | /api/papers | GET | public curated catalog |
 | /api/signup, /api/login | POST | email/password, same-origin JSON |
 | /api/profile | GET | session required |
+| /api/auth-status | GET | account email configuration status |
+| /api/forgot-password, /api/resend-verification | POST | generic response; bounded email requests |
+| /api/reset-password, /api/verify-email | POST | single-use expiring bearer token |
 | /api/logout | POST | session revocation |
 | /api/bookmarks | GET, POST | session required, owner scoped |
 | /api/contact | POST | saved to D1; no email notification |
@@ -249,8 +270,9 @@ status, and Workers AI usage in the Cloudflare account.
 
 ## Boundaries and next stage
 
-- Email verification, account recovery, social OAuth, and account deletion UI
-  remain future work. Use unique passwords; deletion requests go through Contact.
+- Email verification and password recovery are implemented; sending is disabled
+  until Gmail authorization is installed and delivery verified. Social OAuth and
+  account deletion UI remain future work. Deletion requests go through Contact.
 - The public AI is a guide, not a tool executor. Research answers use editorial
   notes and disclose that full manuscripts are unavailable.
 - The Brigade, architecture maps, telemetry, and orchestration chat are demos.
@@ -260,8 +282,30 @@ status, and Workers AI usage in the Cloudflare account.
 - The native renderer is lazy-loaded and remains a substantial Three.js chunk.
   DPR is bounded; rendering pauses offscreen/hidden and falls back for reduced
   motion, context loss, or unavailable WebGL.
-- Next: recovery/verification, ingestion with licensing gates,
+- Next: authorize and verify Gmail delivery, ingestion with licensing gates,
   broader accessibility review, and real runtime event integration.
 
 This implementation establishes the website backend and public presentation;
 it does not qualify the native runtime or establish hackathon eligibility.
+
+## Account email and contact
+
+The temporary public contact, account sender and reply-to are
+`sbarteau2022@gmail.com`, as requested. The Contact page links directly to that
+inbox. Contact form submissions still persist to D1 without email notifications.
+
+Recovery and verification follow the account flow in DESIGN.md. See
+[account email implementation](docs/ACCOUNT_EMAIL.md) for security review,
+configuration, tests, release status and rollback. Recovery links expire after
+30 minutes; verification links after 24 hours. Only token hashes are stored.
+Password reset invalidates existing sessions. Email ownership does not establish
+personal identity, and unverified profiles can still sign in.
+
+To authorize Gmail sending, enable Google 2-Step Verification and create an
+[App Password](https://myaccount.google.com/apppasswords). Save it as an encrypted
+production Cloudflare Pages secret named `GMAIL_APP_PASSWORD` for
+`atoma-labs-site`, then redeploy. Never commit it, place it in frontend variables,
+or paste it into chat. The sender, reply-to and fixed public link origin are
+configured in wrangler.jsonc. Missing authorization returns a clear 503; the UI
+does not claim delivery. Gmail SMTP uses certificate-validated TLS on port 465.
+Delivery has not been qualified against the real Gmail account yet.

@@ -64,6 +64,8 @@ export default function Contact() {
             </div>
 
             <div className="panel">
+              <h3>Direct contact</h3>
+              <p><a href="mailto:sbarteau2022@gmail.com">sbarteau2022@gmail.com</a></p>
               <h3>What to expect</h3>
               <p>
                 We read everything. Replies when there's something real to say —

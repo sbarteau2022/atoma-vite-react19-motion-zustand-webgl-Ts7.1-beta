@@ -24,7 +24,7 @@ related_files:
     lines: "1-11"
     role: "supporting"
   - path: "docs/ACCOUNT_EMAIL.md"
-    lines: "1-213"
+    lines: "1-223"
     role: "supporting"
   - path: ".github/workflows/deploy.yml"
     lines: "1-50"
@@ -270,8 +270,8 @@ status, and Workers AI usage in the Cloudflare account.
 
 ## Boundaries and next stage
 
-- Email verification and password recovery are implemented; sending is disabled
-  until Gmail authorization is installed and delivery verified. Social OAuth and
+- Email verification and password recovery are deployed; Gmail accepted verification
+  and reset test messages. Inbox arrival still needs owner confirmation. Social OAuth and
   account deletion UI remain future work. Deletion requests go through Contact.
 - The public AI is a guide, not a tool executor. Research answers use editorial
   notes and disclose that full manuscripts are unavailable.
@@ -282,7 +282,7 @@ status, and Workers AI usage in the Cloudflare account.
 - The native renderer is lazy-loaded and remains a substantial Three.js chunk.
   DPR is bounded; rendering pauses offscreen/hidden and falls back for reduced
   motion, context loss, or unavailable WebGL.
-- Next: authorize and verify Gmail delivery, ingestion with licensing gates,
+- Next: confirm Gmail inbox arrival, review site flow and disclosures, ingestion with licensing gates,
   broader accessibility review, and real runtime event integration.
 
 This implementation establishes the website backend and public presentation;
@@ -308,4 +308,4 @@ production Cloudflare Pages secret named `GMAIL_APP_PASSWORD` for
 or paste it into chat. The sender, reply-to and fixed public link origin are
 configured in wrangler.jsonc. Missing authorization returns a clear 503; the UI
 does not claim delivery. Gmail SMTP uses certificate-validated TLS on port 465.
-Cloudflare confirms GMAIL_APP_PASSWORD is saved and encrypted. The owner authorized deployment with the two-reviewer requirement waived. Delivery has not been qualified against the real Gmail account yet.
+Cloudflare confirms GMAIL_APP_PASSWORD is saved and encrypted. The owner authorized deployment with the two-reviewer requirement waived. [Release 40147241521](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40147241521) deployed successfully. Gmail accepted both test messages; live verification/reset, replay rejection and session revocation passed using a temporary audit account, which was removed. Inbox arrival needs owner confirmation.

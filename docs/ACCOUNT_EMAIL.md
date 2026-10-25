@@ -3,7 +3,7 @@ title: "Account recovery, verification and personal Gmail sender"
 document_type: "implementation"
 version: "1.0.0"
 date: "2026-10-25T00:10:47Z"
-implementation_date: null # Not merged or deployed
+implementation_date: "2026-10-25T00:36:00Z"
 author: "sbarteau2022 / Codex"
 reviewers: ["sbarteau2022 (owner authorization; two-reviewer requirement explicitly waived)"]
 status: "approved"
@@ -15,7 +15,7 @@ related_files:
     lines: "1-311"
     role: "supporting"
   - path: "docs/ACCOUNT_EMAIL.md"
-    lines: "1-213"
+    lines: "1-223"
     role: "supporting"
   - path: "functions/api/[[path]].js"
     lines: "1-172"
@@ -76,7 +76,7 @@ tags: ["accounts", "email", "cloudflare", "gmail"]
 
 ## Executive summary
 
-People can request a password reset and confirm ownership of their inbox. The site uses the owner's personal Gmail address for direct contact and, once authorized, account messages. The Gmail secret is now saved in Cloudflare; real SMTP authentication and inbox delivery still require live qualification.
+People can request a password reset and confirm ownership of their inbox. The site uses the owner's personal Gmail address for direct contact and, once authorized, account messages. The Gmail secret is saved in Cloudflare, the release is live, and Gmail accepted both verification and reset test messages. Inbox placement still needs the owner to confirm arrival.
 
 ## Problem statement
 
@@ -94,7 +94,7 @@ Add explicit account forms, expiring links, hashed tokens and atomic database up
 | --- | --- | --- |
 | `DESIGN.md` | 1-226 | Account email implementation or verification evidence |
 | `README.md` | 1-311 | Account email implementation or verification evidence |
-| `docs/ACCOUNT_EMAIL.md` | 1-213 | Account email implementation or verification evidence |
+| `docs/ACCOUNT_EMAIL.md` | 1-223 | Account email implementation or verification evidence |
 | `functions/api/[[path]].js` | 1-172 | Account email implementation or verification evidence |
 | `migrations/profiles/0002_account_email.sql` | 1-11 | Account email implementation or verification evidence |
 | `output/audit-animated-desktop.png` | 0 (binary) | Account email implementation or verification evidence |
@@ -176,14 +176,14 @@ Yes: the existing API offered no password recovery or email verification endpoin
 
 | Aspect | Detail |
 | --- | --- |
-| Status | Owner authorized deployment and explicitly waived the two-reviewer requirement on October 24, 2026 (America/Chicago); release pending CI |
+| Status | Deployed October 24, 2026 (America/Chicago), revision 9c02e37, deployment 25d11c6f-9bc9-44a5-a99f-346f3490b53d; owner explicitly waived the two-reviewer requirement |
 | Delivery prerequisite | Save GMAIL_APP_PASSWORD in production Pages secrets, redeploy, then verify inbox arrival and both link actions |
 | Rollout | Approved merge uses existing CI: checks, additive D1 migrations, Pages deploy and health check |
 | Rollback | Restore previous Pages deployment; leave additive columns/table in place. Do not delete users or reverse migrations blindly |
 | Monitoring | auth-status for configuration only; Pages logs for generic delivery failures; Gmail account security and sending limits |
 | Post-deploy checks | Profile login, verification, reset, prior-session rejection, health and mobile account forms |
 
-The owner explicitly authorized deployment without the two-reviewer requirement. Cloudflare production secret listing confirms GMAIL_APP_PASSWORD exists and is encrypted. The value was not read or printed. Real SMTP authentication and inbox placement remain unqualified until the release is live.
+The owner explicitly authorized deployment without the two-reviewer requirement. Cloudflare production secret listing confirms GMAIL_APP_PASSWORD exists and is encrypted. The value was not read or printed. Live SMTP authentication/provider acceptance passed; inbox placement and user interaction with emailed links remain owner-confirmed checks.
 
 ## Next stage of implementation
 
@@ -194,7 +194,7 @@ The owner explicitly authorized deployment without the two-reviewer requirement.
 | Approved research sources and APIs | User allowlist and API availability | Later; no scraping |
 | Business sender and durable retry queue | Business domain and provider | After initial launch |
 
-This implementation sets up recovery and verification because the account state transitions and screens are implemented and tested. It does not complete live email qualification without Gmail authorization and delivery evidence.
+This implementation sets up recovery and verification because the account state transitions and screens are implemented and tested. SMTP/provider acceptance and live API state transitions are qualified. Inbox placement still needs owner confirmation.
 
 ## What we learned
 
@@ -211,3 +211,13 @@ This implementation sets up recovery and verification because the account state 
 | Version | Date | Author | Change |
 | --- | --- | --- | --- |
 | 1.0.0 | 2026-10-25 | sbarteau2022 / Codex | Recovery, verification and temporary Gmail sender implementation |
+
+## Production release evidence — October 24, 2026, America/Chicago
+
+[GitHub release 40147241521](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40147241521) passed verification and deployment. Migration 0002 applied successfully. Production health confirms both databases and Workers AI; auth-status reports emailAvailable:true.
+
+A temporary Gmail plus-address belonging to the owner received signup-verification and recovery requests. Both background requests completed in roughly 2.5 seconds with outcome ok, no delivery-failure log, and one retained token per purpose after completion. Because the adapter requires a provider message ID and accepted recipient and deletes tokens on sending failure, this establishes SMTP acceptance; it does not prove inbox placement.
+
+Controlled tokens were separately seeded only for that temporary account to test production D1/API transitions without reading the owner's inbox: verify, reject verification replay, reset, login with verified status, profile access, second reset, reject old session and reject reset replay all passed. These are controlled API checks, not proof that the owner clicked the emailed links. The test account, sessions and tokens were removed, and absence was confirmed. No SMTP credential or raw token was printed. The two test messages may remain in the owner's inbox; their links no longer work.
+
+Five production-browser checks passed: public routes, recovery navigation, explicit verification and fragment removal, reset confirmation, and unavailable-delivery UI. Account API responses are mocked in these browser checks; the separate production API checks above used actual D1.

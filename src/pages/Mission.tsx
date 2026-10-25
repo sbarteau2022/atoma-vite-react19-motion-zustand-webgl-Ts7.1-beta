@@ -18,8 +18,9 @@ export default function Mission() {
         <p className="lede">
           Atoma Labs is an independent studio building agentic tools for solo
           developers — the people shipping real software on one machine, with
-          no platform team and no patience for black boxes. Our tools run on
-          constrained hardware, plan in the open, and prove what they did.
+          no platform team and no patience for black boxes. We are building toward tools that run on
+          constrained hardware, plan in the open, and show evidence of what they did.
+          The website is live; native execution and orchestration remain in development.
         </p>
       </div>
 

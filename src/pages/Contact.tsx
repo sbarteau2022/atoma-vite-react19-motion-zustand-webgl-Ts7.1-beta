@@ -72,7 +72,7 @@ export default function Contact() {
                 no autoresponder theater, no newsletter you didn't ask for.
                 Product questions get product answers; the{" "}
                 <Link to="/#changelog">changelog</Link> covers the rest on its
-                weekly cadence.
+                release record.
               </p>
             </div>
           </div>

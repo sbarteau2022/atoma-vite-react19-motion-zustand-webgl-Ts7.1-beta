@@ -8,6 +8,36 @@ author: "sbarteau2022 / Codex"
 reviewers: ["sbarteau2022 (owner authorization; two-reviewer requirement explicitly waived)"]
 status: "approved"
 related_files:
+  - path: "tests/dependencyNotices.test.mjs"
+    lines: "1-14"
+    role: "supporting"
+  - path: "tests/browser/company.spec.ts"
+    lines: "1-49"
+    role: "supporting"
+  - path: "src/pages/Mission.tsx"
+    lines: "1-112"
+    role: "supporting"
+  - path: "src/pages/CompanyDocument.tsx"
+    lines: "1-34"
+    role: "supporting"
+  - path: "src/content/dependencyInventory.json"
+    lines: "1-177"
+    role: "supporting"
+  - path: "src/content/companyDocuments.ts"
+    lines: "1-86"
+    role: "supporting"
+  - path: "scripts/generate-dependency-notices.mjs"
+    lines: "1-10"
+    role: "supporting"
+  - path: "output/audit-company-mobile.png"
+    lines: "0"
+    role: "supporting"
+  - path: "output/audit-company-desktop.png"
+    lines: "0"
+    role: "supporting"
+  - path: "docs/COMPANY_DOCUMENTATION.md"
+    lines: "1-210"
+    role: "supporting"
   - path: "tests/accountMail.test.mjs"
     lines: "1-9"
     role: "supporting"
@@ -33,10 +63,10 @@ related_files:
     lines: "1-33"
     role: "supporting"
   - path: "DESIGN.md"
-    lines: "1-226"
+    lines: "1-250"
     role: "supporting"
   - path: "README.md"
-    lines: "1-311"
+    lines: "1-372"
     role: "supporting"
   - path: "docs/LAUNCH_AUDIT.md"
     lines: "1-316"
@@ -69,7 +99,7 @@ related_files:
     lines: "1-4360"
     role: "config"
   - path: "package.json"
-    lines: "1-49"
+    lines: "1-50"
     role: "config"
   - path: "playwright.config.ts"
     lines: "1-2"
@@ -87,7 +117,7 @@ related_files:
     lines: "1-1"
     role: "supporting"
   - path: "src/App.tsx"
-    lines: "1-139"
+    lines: "1-146"
     role: "supporting"
   - path: "src/components/AiWidget.tsx"
     lines: "1-12"
@@ -108,7 +138,7 @@ related_files:
     lines: "1-28"
     role: "supporting"
   - path: "src/index.css"
-    lines: "1-987"
+    lines: "1-1023"
     role: "supporting"
   - path: "src/pages/Apps.tsx"
     lines: "1-105"
@@ -309,3 +339,34 @@ or paste it into chat. The sender, reply-to and fixed public link origin are
 configured in wrangler.jsonc. Missing authorization returns a clear 503; the UI
 does not claim delivery. Gmail SMTP uses certificate-validated TLS on port 465.
 Cloudflare confirms GMAIL_APP_PASSWORD is saved and encrypted. The owner authorized deployment with the two-reviewer requirement waived. [Release 40147241521](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40147241521) deployed successfully. Gmail accepted both test messages; live verification/reset, replay rejection and session revocation passed using a temporary audit account, which was removed. Inbox arrival needs owner confirmation.
+
+## Company and trust documentation
+
+The footer now links to 16 dedicated published-draft pages: About, Careers &
+collaboration, Current work, Build log, Documentation, API reference, Status,
+Privacy, Data practices, Cookies & storage, Disclosures, Terms, Security,
+Accessibility, Research editorial policy, and Source & dependencies. The existing
+Mission and Contact pages remain available. Sitemap entries cover every notice.
+
+Edit prose in `src/content/companyDocuments.ts`; each document contains its route,
+summary, section IDs, text and links. The shared `src/pages/CompanyDocument.tsx`
+provides update labels, section navigation and builder contact. Drafts describe
+current implementation and avoid unsupported business, compliance, uptime, hiring
+or product-release claims. There is no invented legal entity, office address,
+mandatory arbitration or fixed data deletion promise.
+
+Privacy and data pages document actual D1 records, opportunistic token/session
+cleanup, indefinite account/contact/bookmark retention until manual removal,
+provider processing, Gmail email copies and browser-only chat state. No consent
+manager, new tracking, backend collection or retention automation is added.
+The Status page runs health/configuration reads only after the visitor requests
+them, and distinguishes configuration from AI inference or inbox delivery.
+
+Source notices list all 25 direct dependencies with locked versions and upstream
+license metadata, generated with `npm run docs:dependencies`. Transitive packages
+and full license texts still require their upstream notices; this is not a
+complete license audit or a blanket license for Atoma branding or source.
+The inventory consistency test fails if direct packages drift from the lockfile.
+
+See [company documentation implementation](docs/COMPANY_DOCUMENTATION.md) for the
+file manifest, editorial review, adversarial checks, validation and rollout.

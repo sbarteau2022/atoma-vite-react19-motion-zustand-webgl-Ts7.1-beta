@@ -224,3 +224,27 @@ over certificate-validated TLS on port 465. Nodemailer 10 ESM with nodejs_compat
 provides the transport. GMAIL_APP_PASSWORD lives only in a production Cloudflare
 secret. Missing authorization disables delivery. The original Cloudflare Email
 binding adapter remains available for a later verified business domain.
+
+## Company and trust documentation — October 24, 2026
+
+Replace footer aliases with dedicated, readable company and trust pages. A shared
+editorial layout provides a visible published-draft label, update date, page
+summary, section navigation, related notices and direct builder contact. Match
+the obsidian/titanium system, readable line lengths, keyboard focus and mobile
+stacking; avoid promotional claims in policy text. Company pages cover the
+builder, current work, actual release history and collaboration inquiries.
+Resource pages explain real public APIs, status scope and research sourcing.
+Trust pages cover privacy, data inventory/retention, cookies, disclosures, use
+terms, security, accessibility and source/dependency notices. Use implementation
+and provider documentation as evidence. Do not invent incorporation, offices,
+certifications, hiring roles, SLAs, deletion deadlines or compliance guarantees.
+State that account/contact/bookmark retention has no automatic purge, providers
+may retain their own records, and chat remains in browser memory during a visit.
+Separate live website functions from native-runtime previews and roadmaps.
+Publish existing licenses accurately; a public repository alone grants no blanket
+license. Status uses an explicit user-triggered health check and identifies its
+scope; do not imply continuous monitoring or inbox delivery verification.
+All footer destinations must resolve to real pages, render accessible headings,
+and remain usable at narrow widths. Add sitemap entries, README documentation,
+edge-case checks and release evidence. Owner authorized drafting and publication;
+the earlier two-reviewer waiver applies to this authorized website release work.

@@ -36,7 +36,7 @@ related_files:
     lines: "0"
     role: "supporting"
   - path: "docs/COMPANY_DOCUMENTATION.md"
-    lines: "1-210"
+    lines: "1-214"
     role: "supporting"
   - path: "tests/accountMail.test.mjs"
     lines: "1-9"
@@ -66,7 +66,7 @@ related_files:
     lines: "1-250"
     role: "supporting"
   - path: "README.md"
-    lines: "1-372"
+    lines: "1-374"
     role: "supporting"
   - path: "docs/LAUNCH_AUDIT.md"
     lines: "1-316"
@@ -370,3 +370,5 @@ The inventory consistency test fails if direct packages drift from the lockfile.
 
 See [company documentation implementation](docs/COMPANY_DOCUMENTATION.md) for the
 file manifest, editorial review, adversarial checks, validation and rollout.
+
+Company documentation is live in [release 40149154101](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40149154101). All 29 Node tests and 14 browser tests passed in the release checks; four company checks also passed against production. The database health and email-configuration endpoints remain healthy.

@@ -12,10 +12,10 @@ related_files:
     lines: "1-250"
     role: "supporting"
   - path: "README.md"
-    lines: "1-372"
+    lines: "1-374"
     role: "supporting"
   - path: "docs/COMPANY_DOCUMENTATION.md"
-    lines: "1-210"
+    lines: "1-214"
     role: "supporting"
   - path: "output/audit-animated-desktop.png"
     lines: "0"
@@ -90,8 +90,8 @@ Use an editorial page shell with section navigation, update dates, draft labels,
 | File | Lines | Description |
 | --- | --- | --- |
 | `DESIGN.md` | 1-250 | Company documentation implementation or validation evidence |
-| `README.md` | 1-372 | Company documentation implementation or validation evidence |
-| `docs/COMPANY_DOCUMENTATION.md` | 1-210 | Company documentation implementation or validation evidence |
+| `README.md` | 1-374 | Company documentation implementation or validation evidence |
+| `docs/COMPANY_DOCUMENTATION.md` | 1-214 | Company documentation implementation or validation evidence |
 | `output/audit-animated-desktop.png` | 0 (binary) | Company documentation implementation or validation evidence |
 | `output/audit-company-desktop.png` | 0 (binary) | Company documentation implementation or validation evidence |
 | `output/audit-company-mobile.png` | 0 (binary) | Company documentation implementation or validation evidence |
@@ -179,7 +179,7 @@ Yes. Dedicated footer destinations were missing, including substantive data rete
 | Migration | None |
 | Validation | Production company browser suite, health, status scope and representative notice URLs |
 | Rollback | Redeploy previous known-good Pages revision; no data rollback required |
-| Release status | Pending production workflow; record evidence below after deployment |
+| Release status | Deployed revision 1273396 through successful GitHub run 40149154101 |
 
 ## Next stage
 
@@ -208,3 +208,7 @@ This implementation sets up the public front door because footer topics now have
 | Version | Local date | Author | Change |
 | --- | --- | --- | --- |
 | 1.0.0 | 2026-10-24 | sbarteau2022 / Codex | Dedicated company and trust drafts, footer routing, source inventory and checks |
+
+## Production validation
+
+[Release 40149154101](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40149154101) passed both verification and Cloudflare deployment. All four company browser checks passed against https://atoma-labs-site.pages.dev, exercising all 16 published pages, footer destinations, narrow-width layout and the status UI. Status endpoint responses in browser tests are controlled fixtures; separate unmocked production GETs confirmed both D1 databases healthy, the AI binding present, and email configuration present. The live reads do not invoke AI or prove email inbox delivery. The desktop screenshot was refreshed from production. No database writes or account emails were needed for this release.

@@ -5,8 +5,8 @@ version: "1.0.0"
 date: "2026-10-25T00:10:47Z"
 implementation_date: null # Not merged or deployed
 author: "sbarteau2022 / Codex"
-reviewers: []
-status: "review"
+reviewers: ["sbarteau2022 (owner authorization; two-reviewer requirement explicitly waived)"]
+status: "approved"
 related_files:
   - path: "DESIGN.md"
     lines: "1-226"
@@ -76,7 +76,7 @@ tags: ["accounts", "email", "cloudflare", "gmail"]
 
 ## Executive summary
 
-People can request a password reset and confirm ownership of their inbox. The site uses the owner's personal Gmail address for direct contact and, once authorized, account messages. Gmail authorization and real inbox delivery are still pending; the feature reports that honestly.
+People can request a password reset and confirm ownership of their inbox. The site uses the owner's personal Gmail address for direct contact and, once authorized, account messages. The Gmail secret is now saved in Cloudflare; real SMTP authentication and inbox delivery still require live qualification.
 
 ## Problem statement
 
@@ -176,14 +176,14 @@ Yes: the existing API offered no password recovery or email verification endpoin
 
 | Aspect | Detail |
 | --- | --- |
-| Status | Prepared for review; not released by this change |
+| Status | Owner authorized deployment and explicitly waived the two-reviewer requirement on October 24, 2026 (America/Chicago); release pending CI |
 | Delivery prerequisite | Save GMAIL_APP_PASSWORD in production Pages secrets, redeploy, then verify inbox arrival and both link actions |
 | Rollout | Approved merge uses existing CI: checks, additive D1 migrations, Pages deploy and health check |
 | Rollback | Restore previous Pages deployment; leave additive columns/table in place. Do not delete users or reverse migrations blindly |
 | Monitoring | auth-status for configuration only; Pages logs for generic delivery failures; Gmail account security and sending limits |
 | Post-deploy checks | Profile login, verification, reset, prior-session rejection, health and mobile account forms |
 
-Do not mark this document approved without the required human reviews. Real SMTP authentication and inbox placement are untested while the secret is absent. Cloudflare's production secret listing currently has no Gmail secret.
+The owner explicitly authorized deployment without the two-reviewer requirement. Cloudflare production secret listing confirms GMAIL_APP_PASSWORD exists and is encrypted. The value was not read or printed. Real SMTP authentication and inbox placement remain unqualified until the release is live.
 
 ## Next stage of implementation
 

@@ -5,8 +5,8 @@ version: "1.1.0"
 date: "2026-10-24T21:20:00Z"
 implementation_date: "2026-10-24T21:14:00Z"
 author: "sbarteau2022 / Codex"
-reviewers: []
-status: "review"
+reviewers: ["sbarteau2022 (owner authorization; two-reviewer requirement explicitly waived)"]
+status: "approved"
 related_files:
   - path: "tests/accountMail.test.mjs"
     lines: "1-9"
@@ -308,4 +308,4 @@ production Cloudflare Pages secret named `GMAIL_APP_PASSWORD` for
 or paste it into chat. The sender, reply-to and fixed public link origin are
 configured in wrangler.jsonc. Missing authorization returns a clear 503; the UI
 does not claim delivery. Gmail SMTP uses certificate-validated TLS on port 465.
-Delivery has not been qualified against the real Gmail account yet.
+Cloudflare confirms GMAIL_APP_PASSWORD is saved and encrypted. The owner authorized deployment with the two-reviewer requirement waived. Delivery has not been qualified against the real Gmail account yet.

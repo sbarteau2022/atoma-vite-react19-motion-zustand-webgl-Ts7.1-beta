@@ -47,4 +47,4 @@ jobs:
       - run: npx wrangler d1 migrations apply RESEARCH --remote
       - run: npm run deploy -- --branch main
       - name: Verify production bindings
-        run: curl --fail --retry 4 --retry-delay 5 https://atoma-labs-site.pages.dev/api/health
+        run: node scripts/verify-production.mjs

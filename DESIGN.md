@@ -248,3 +248,14 @@ All footer destinations must resolve to real pages, render accessible headings,
 and remain usable at narrow widths. Add sitemap entries, README documentation,
 edge-case checks and release evidence. Owner authorized drafting and publication;
 the earlier two-reviewer waiver applies to this authorized website release work.
+
+## API audit hardening — October 28, 2026
+
+Resolve a fixed endpoint/method table before origin checks, D1 rate limiting or
+cleanup. Unknown paths return 404 without touching bindings; known paths with
+unsupported methods return 405 with Allow. JSON writes accept the exact
+application/json media type, case-insensitively, with optional parameters.
+Production release checks must validate JSON content and binding flags, a
+nonempty catalog, and email configuration; a 200 HTML fallback is a failure.
+These reads verify configuration and database availability, not inference or
+email delivery. Preserve the existing visual system until UI design review.

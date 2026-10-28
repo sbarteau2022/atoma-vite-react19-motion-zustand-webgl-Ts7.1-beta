@@ -1,5 +1,10 @@
 import {accountMailConfigured,sendAccountMail} from "../../server/accountMail.js";
 const json = (data, status = 200, headers = {}) => Response.json(data, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...headers } });
+const routes = new Map([
+  ...['health', 'papers', 'auth-status', 'profile'].map(path => [path, ['GET']]),
+  ...['signup', 'login', 'logout', 'forgot-password', 'resend-verification', 'reset-password', 'verify-email', 'contact', 'chat'].map(path => [path, ['POST']]),
+  ['bookmarks', ['GET', 'POST']],
+]);
 const fail = (message, status = 400) => { throw Object.assign(new Error(message), { status }); };
 const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, "0")).join("");
 const hash = async text => hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)));
@@ -9,7 +14,7 @@ async function passwordHash(password, salt) {
   return hex(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: new TextEncoder().encode(salt), iterations: 100000 }, key, 256));
 }
 async function body(request) {
-  if (!request.headers.get("Content-Type")?.includes("application/json")) fail("JSON required", 415);
+  if (request.headers.get("Content-Type")?.split(";", 1)[0].trim().toLowerCase() !== "application/json") fail("JSON required", 415);
   const reader = request.body?.getReader();
   if (!reader) fail("JSON required");
   const chunks=[];let size=0;
@@ -63,6 +68,9 @@ async function limit(request, env, path) {
 export async function onRequest({ request, env, waitUntil }) {
   try {
     const url = new URL(request.url), path = url.pathname.replace(/^\/api\//, "");
+    const methods = routes.get(path);
+    if (!methods) return json({ error: "Endpoint not found" }, 404);
+    if (!methods.includes(request.method)) return json({ error: "Method not allowed" }, 405, { Allow: methods.join(", ") });
     if (request.method === "POST") {
       if (request.headers.get("Origin") !== url.origin) fail("Origin rejected", 403);
       await limit(request, env, path);

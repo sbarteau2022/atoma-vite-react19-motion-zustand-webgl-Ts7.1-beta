@@ -372,3 +372,12 @@ See [company documentation implementation](docs/COMPANY_DOCUMENTATION.md) for th
 file manifest, editorial review, adversarial checks, validation and rollout.
 
 Company documentation is live in [release 40149154101](https://github.com/sbarteau2022/atoma-vite-react19-motion-zustand-webgl-Ts7.1-beta/actions/runs/40149154101). All 29 Node tests and 14 browser tests passed in the release checks; four company checks also passed against production. The database health and email-configuration endpoints remain healthy.
+
+## October 28 audit hardening
+
+The API rejects unknown paths before touching D1 and returns 405 plus Allow for
+unsupported methods. JSON content types require an exact media type. CI now
+validates production JSON, database/AI binding flags, a nonempty research catalog
+and mail configuration through `node scripts/verify-production.mjs`. This does
+not establish inference quality or inbox delivery. See [audit](docs/AUDIT_2026-10-28.md)
+for findings, remaining scope, and owner setup decisions.

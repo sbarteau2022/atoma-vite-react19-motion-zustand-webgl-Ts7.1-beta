@@ -381,3 +381,6 @@ validates production JSON, database/AI binding flags, a nonempty research catalo
 and mail configuration through `node scripts/verify-production.mjs`. This does
 not establish inference quality or inbox delivery. See [audit](docs/AUDIT_2026-10-28.md)
 for findings, remaining scope, and owner setup decisions.
+
+Release actions use verified immutable checkout v7.0.1 and setup-node v7.1.0
+commits, replacing deprecated Node 20 action runtimes.

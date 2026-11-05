@@ -1,0 +1,17 @@
+[package]
+name = "ares-governor"
+version = "0.1.0"
+edition = "2021"
+description = "Atoma governor scaffold. Loopback :4810. Fail closed until a proof exists."
+publish = false
+
+[[bin]]
+name = "ares-governor"
+path = "src/main.rs"
+
+[dependencies]
+axum = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "time", "io-util"] }
+tower-http = { version = "0.6", features = ["limit", "timeout"] }

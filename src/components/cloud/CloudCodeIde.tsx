@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ares } from '../../api'
+import { ares, MUSE_MODEL_ID, museChat, toMuseMessages } from '../../api'
 import { useGovernor } from '../../governor'
 import { useAtomaStore, type ChatTurn } from '../../store/useAtomaStore'
 
@@ -65,7 +65,7 @@ type Pane = 'workspace' | 'flow' | 'changes' | 'receipts'
 type Dock = 'terminal' | 'checks' | 'telemetry'
 
 export function CloudCodeIdeView() {
-  const { ideChatTurns, addIdeChatTurn, pushIdeTurn } = useAtomaStore()
+  const { ideChatTurns, addIdeChatTurn, pushIdeTurn, selectedCloudModel } = useAtomaStore()
   const { link, status } = useGovernor()
   const live = link === 'live'
   const [pane, setPane] = useState<Pane>('workspace')
@@ -89,6 +89,37 @@ export function CloudCodeIdeView() {
     setPrompt('')
     addIdeChatTurn(text)
     setBusy(true)
+    if (selectedCloudModel === MUSE_MODEL_ID) {
+      try {
+        const reply = await museChat(
+          toMuseMessages(
+            'You are the assistant inside the Atoma Labs study IDE. The files on screen are fixtures, not a live repository. Do not claim tests passed, receipts were written, or numbers you were not given.',
+            ideChatTurns,
+            text,
+          ),
+        )
+        pushIdeTurn({
+          id: `ide-a-${Date.now()}`,
+          sender: 'assistant',
+          authorLabel: 'Research assistant',
+          timestamp: 'Now',
+          modelUsed: reply.model,
+          text: reply.text,
+        })
+      } catch (err) {
+        pushIdeTurn({
+          id: `ide-a-${Date.now()}`,
+          sender: 'assistant',
+          authorLabel: 'Research assistant',
+          timestamp: 'Now',
+          modelUsed: MUSE_MODEL_ID,
+          text: err instanceof Error ? err.message : 'muse-spark-open-1026 did not answer.',
+        })
+      } finally {
+        setBusy(false)
+      }
+      return
+    }
     try {
       const rag = await ares.rag(text, 6)
       const bullets = rag.hits.slice(0, 4).map(

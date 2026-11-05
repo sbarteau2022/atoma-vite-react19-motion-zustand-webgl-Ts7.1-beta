@@ -38,6 +38,37 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   return (await res.json()) as T
 }
 
+export const MUSE_MODEL_ID = 'muse-spark-open-1026'
+export const MUSE_MODEL_SLUG = 'meta-models/muse-spark-open-1026'
+
+export type MuseMessage = {
+  role: 'system' | 'user' | 'assistant'
+  content: string
+}
+
+export function toMuseMessages(
+  system: string,
+  turns: Array<{ sender: string; text: string }>,
+  next: string,
+): MuseMessage[] {
+  const history: MuseMessage[] = turns
+    .filter((turn) => turn.sender === 'user' || turn.sender === 'assistant')
+    .slice(-6)
+    .map((turn) => ({
+      role: turn.sender === 'user' ? 'user' : 'assistant',
+      content: turn.text.slice(0, 4000),
+    }))
+  return [
+    { role: 'system', content: system },
+    ...history,
+    { role: 'user', content: next.slice(0, 8000) },
+  ]
+}
+
+export async function museChat(messages: MuseMessage[]): Promise<{ text: string; model: string }> {
+  return postJson('/edge/chat', { messages })
+}
+
 export const ares = {
   status: () => getJson<GovernorStatus>('/api/status'),
   harness: () => getJson<HarnessStatus>('/api/harness/status'),

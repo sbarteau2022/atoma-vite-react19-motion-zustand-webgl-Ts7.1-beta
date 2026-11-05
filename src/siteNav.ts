@@ -24,10 +24,17 @@ export const primaryNav: Array<LabSurface & { end?: boolean }> = [
     tab: 'mind',
     as: 'obsidian',
   },
+  {
+    id: 'all',
+    to: '/all',
+    label: 'All Together — 4D Graph',
+    rail: '4D',
+    tab: 'mind',
+  },
 ]
 
 export const labRail: LabSurface[] = [
-  ...primaryNav.filter((item) => item.id !== 'home'),
+  ...primaryNav.filter((item) => item.id !== 'home' && item.id !== 'all'),
   { id: 'tools', to: '/app?tab=tools', label: 'Tools', rail: 'Tools', tab: 'tools' },
   { id: 'settings', to: '/app?tab=settings', label: 'Settings', rail: 'Settings', tab: 'settings' },
 ]
@@ -57,6 +64,7 @@ export function pageTitle(pathname: string, search: string): string {
     const params = new URLSearchParams(search)
     return labTitle(params.get('tab'), params.get('as'))
   }
+  if (pathname === '/all') return 'All Together — 4D Graph'
   if (pathname === '/about') return 'About'
   if (pathname === '/updates' || pathname === '/changelog') return 'Updates'
   if (pathname === '/blog') return 'Blog'

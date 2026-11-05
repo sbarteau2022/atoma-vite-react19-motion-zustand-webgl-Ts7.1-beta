@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ares } from '../../api'
+import { ares, MUSE_MODEL_ID, museChat, toMuseMessages } from '../../api'
 import { useGovernor } from '../../governor'
 import { preprintById, preprints } from '../../preprints'
 import { CLOUD_MODELS, useAtomaStore, type ChatTurn, type UploadedDocItem } from '../../store/useAtomaStore'
@@ -56,6 +56,37 @@ export function CloudResearchHubView() {
     setPrompt('')
     addResearchChatTurn(text)
     setBusy(true)
+    if (selectedCloudModel === MUSE_MODEL_ID) {
+      try {
+        const reply = await museChat(
+          toMuseMessages(
+            `You are the assistant beside the preprint “${paper.title}”. Do not invent measured results. If something is still a proposal, say so.`,
+            researchChatTurns,
+            text,
+          ),
+        )
+        pushResearchTurn({
+          id: `r-a-${Date.now()}`,
+          sender: 'assistant',
+          authorLabel: 'Assistant',
+          timestamp: 'Now',
+          modelUsed: reply.model,
+          text: reply.text,
+        })
+      } catch (err) {
+        pushResearchTurn({
+          id: `r-a-${Date.now()}`,
+          sender: 'assistant',
+          authorLabel: 'Assistant',
+          timestamp: 'Now',
+          modelUsed: MUSE_MODEL_ID,
+          text: err instanceof Error ? err.message : 'muse-spark-open-1026 did not answer. The preprint was not changed.',
+        })
+      } finally {
+        setBusy(false)
+      }
+      return
+    }
     try {
       const rag = await ares.rag(text, 6)
       const bullets = rag.hits.slice(0, 3).map((hit) => hit.text.slice(0, 180))

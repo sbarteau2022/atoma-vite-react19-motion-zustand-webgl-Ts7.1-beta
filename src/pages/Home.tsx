@@ -451,8 +451,24 @@ export function Home() {
         </section>
       </div>
 
-      <aside className="stage" aria-label="Interactive Atoma mind">
+      <aside className="stage" aria-label="Interactive Atoma mind" style={{ position: 'relative' }}>
         <div className="dots" />
+        <div style={{ position: 'absolute', top: 12, left: 12, right: 12, zIndex: 2, pointerEvents: 'none' }}>
+          <p style={{ margin: 0, fontSize: 11, letterSpacing: '.15em', color: '#a1a1aa' }}>THE MIND, IN 3D — DRAG TO ORBIT · CLICK A PIECE</p>
+          <p style={{ margin: '6px 0 0', fontSize: 20, fontWeight: 700, color: '#EFEADF' }}>Four pieces. One map.</p>
+        </div>
+        <div style={{ position: 'absolute', bottom: 12, left: 12, zIndex: 2, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {[
+            ['01', 'Lorentz hyperboloid', 'The map itself'],
+            ['02', 'Phase torus', 'Fast + slow, 2:1 lock'],
+            ['03', 'Poincaré KV, nested', 'Memory inside the map'],
+            ['04', '12 around 1 — Atlas13', 'Basins + coordinator'],
+          ].map(([no, name, desc], i) => (
+            <button key={no} type="button" onClick={() => setOpenLayer(i)} style={{ textAlign: 'left', background: openLayer === i ? '#f59e0b' : 'rgba(23,23,26,.85)', color: openLayer === i ? '#17171a' : '#EFEADF', border: '1px solid #45454d', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', fontSize: 13 }}>
+              <b>{no} · {name}</b> <span style={{ opacity: 0.75 }}>— {desc}</span>
+            </button>
+          ))}
+        </div>
         <AtomaStage selected={openLayer} onSelect={setOpenLayer} />
       </aside>
     </main>

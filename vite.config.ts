@@ -18,6 +18,10 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
+      '/edge': {
+        target: 'https://atoma-labs.sbarteau2022.workers.dev',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://127.0.0.1:4810',
         changeOrigin: false,

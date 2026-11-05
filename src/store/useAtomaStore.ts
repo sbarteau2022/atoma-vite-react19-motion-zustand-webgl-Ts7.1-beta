@@ -145,14 +145,14 @@ export const CLOUD_MODELS: CloudModelEndpoint[] = [
     status: 'key_required',
   },
   {
-    id: 'muse-spark',
-    name: 'Muse-Spark-1.3-Contributor',
-    provider: 'Catalog · standby',
-    protocol: 'META_API_KEY Witness Bus',
+    id: 'muse-spark-open-1026',
+    name: 'muse-spark-open-1026',
+    provider: 'Baseten Model API',
+    protocol: 'meta-models/muse-spark-open-1026',
     latency: '—',
-    rate: 'catalog',
-    kvMode: 'Shared Bus Sequenced',
-    status: 'standby',
+    rate: 'Baseten',
+    kvMode: 'Edge on this site',
+    status: 'online',
   },
 ];
 
@@ -511,7 +511,7 @@ export const useAtomaStore = create<AtomaState>((set, get) => ({
   setWorkspaceName: (workspaceName) => set({ workspaceName }),
   cloudTab: 'code',
   setCloudTab: (cloudTab) => set({ cloudTab }),
-  selectedCloudModel: 'atoma-n3-70b',
+  selectedCloudModel: 'muse-spark-open-1026',
   setSelectedCloudModel: (selectedCloudModel) => set({ selectedCloudModel }),
 
   projectIdea:

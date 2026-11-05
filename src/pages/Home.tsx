@@ -1,118 +1,460 @@
-import { Link } from "react-router-dom";
-import { SectionHead } from "../components.jsx";
-import { InteractiveHero } from "../components/InteractiveHero";
-import { ArchitectureDeck } from "../components/ArchitectureDeck";
-import { LongHorizonDemo } from "../components/LongHorizonDemo";
-import { ResearchPreview } from "../components/ResearchPreview";
-import { ScrollJourney } from "../components/ScrollJourney";
+import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { LiveDemo } from '../components/LiveDemo'
+import { PartnerMark } from '../components/PartnerMarks'
+import { useScrollReveal } from '../hooks/useScrollReveal'
+import { AtomaStage } from '../scene/AtomaStage'
+import {
+  capabilities,
+  faqs,
+  features,
+  flowCards,
+  integrations,
+  geometry,
+  layers,
+  overview,
+  partners,
+  posts,
+  site,
+  workflow,
+} from '../content'
+import { preprints } from '../preprints'
+import { useGovernor } from '../governor'
 
-export default function Home() {
+const sections = [
+  { id: 'capabilities', no: '01', label: 'Capabilities' },
+  { id: 'numbers', no: '02', label: 'Numbers' },
+  { id: 'features', no: '03', label: 'Features' },
+  { id: 'integrations', no: '04', label: 'Integrations' },
+  { id: 'pricing', no: '05', label: 'Pricing' },
+  { id: 'insights', no: '06', label: 'Insights' },
+  { id: 'faq', no: '07', label: 'FAQ' },
+] as const
+
+export function Home() {
+  const { link, status } = useGovernor()
+  const [openLayer, setOpenLayer] = useState(0)
+  const [tab, setTab] = useState<(typeof integrations)[number]['id']>('docs')
+  const [openFaq, setOpenFaq] = useState(0)
+  const [annual, setAnnual] = useState(false)
+  const current = integrations.find((item) => item.id === tab) ?? integrations[0]
+  const deps = status?.dependencies ?? []
+  const upCount = deps.filter((d) => d.up).length
+  const live = link === 'live'
+  const root = useRef<HTMLElement>(null)
+  useScrollReveal(root)
+
   return (
-    <div className="home-root">
-      <InteractiveHero />
-      <ScrollJourney />
+    <main id="top" className="home" ref={root}>
+      <aside className="rail" aria-label="Partners">
+        <ul>
+          {partners.map((partner) => (
+            <li key={partner.id}>
+              <a
+                href={partner.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={partner.caption}
+              >
+                <PartnerMark id={partner.id} />
+                <span className="partner-name">{partner.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
 
-      {/* =========================================================================
-          1.0 Brigade App v1
-          ========================================================================= */}
-      <section id="brigade" className="story-beat">
-        <div className="story-content">
-        <SectionHead
-          num="1.0"
-          label="Brigade App v1"
-          title="Long-horizon work"
-          tone="you can inspect."
-        >
-          Research-grade agentics for constrained hardware. Follow a mission across
-          bounded branches, durable checkpoints, resource budgets, and independent
-          verification. This is an interactive systems preview, not live runtime telemetry.
-        </SectionHead>
-        <LongHorizonDemo />
+      <div className="canvas">
+        <section className="hero">
+          <p className="kicker lined">{site.kicker}</p>
+          <h1>
+            One mind.
+            <br />
+            Every engineering
+            <br />
+            job.
+          </h1>
+          <p className="lede">{site.lede}</p>
+          <Link className="btn btn-cream wide-cta" to="/waitlist">
+            Enter the lab
+          </Link>
+
+          <ul className="layer-acc">
+            {layers.map((layer, index) => {
+              const open = openLayer === index
+              return (
+                <li key={layer.no} className={open ? 'is-open' : undefined}>
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    onClick={() => setOpenLayer(open ? -1 : index)}
+                  >
+                    <span>{layer.no}</span>
+                    {layer.title}
+                    <i aria-hidden>{open ? '⌃' : '⌄'}</i>
+                  </button>
+                  {open && (
+                    <>
+                      <p>{layer.body}</p>
+                      <ul>
+                        {layer.bullets.map((bullet) => (
+                          <li key={bullet}>+ {bullet}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+
+        <LiveDemo />
+
+        <ul className="logo-strip" aria-label="Hackathon, sponsor, and community">
+          {partners.map((partner) => (
+            <li key={partner.id}>
+              <a href={partner.href} target="_blank" rel="noopener noreferrer">
+                <PartnerMark id={partner.id} />
+                <span>{partner.name}</span>
+                <small>{partner.caption}</small>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <section id="geometry" className="geometry">
+          <p className="kicker lined">{geometry.kicker}</p>
+          <h2 className="section-title cream">{geometry.title}</h2>
+          <p className="geo-scope">{geometry.scope}</p>
+          <p className="geo-legend">{geometry.legend}</p>
+          <ol className="geo-pieces">
+            {geometry.pieces.map((piece) => (
+              <li key={piece.no}>
+                <p className="kicker">
+                  {piece.no} · {piece.status}
+                </p>
+                <h3>
+                  {piece.title}
+                  <span>{piece.role}</span>
+                </h3>
+                {piece.body.map((para) => (
+                  <p key={para}>{para}</p>
+                ))}
+              </li>
+            ))}
+          </ol>
+          <h3 className="geo-fit-title">How the four pieces fit</h3>
+          <ol className="geo-fit">
+            {geometry.fit.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ol>
+          <p className="kicker">Sources</p>
+          <ul className="geo-sources">
+            {geometry.sources.map((source) => (
+              <li key={source}>{source}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="preprints" className="block dark-block">
+          <p className="kicker lined">Preprints</p>
+          <h2 className="section-title cream">Three papers. November 4, 2026.</h2>
+          <p className="section-sub">
+            Scientific preprints. The front of each is plain language. Opening one
+            here takes you into the reader. The PDF is the paper itself.
+          </p>
+          <ul className="preprint-list">
+            {preprints.map((paper) => (
+              <li key={paper.id}>
+                <span>{paper.no}</span>
+                <div>
+                  <Link to={`/app?tab=research&paper=${paper.id}`}>
+                    <h3>{paper.title}</h3>
+                  </Link>
+                  <p>{paper.lead}</p>
+                </div>
+                <a href={paper.pdf}>PDF</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="overview" className="overview">
+          <p className="kicker lined">Overview</p>
+          {overview.map((para) => (
+            <p key={para} className="overview-text">
+              {para}
+            </p>
+          ))}
+          <ol className="flow-cards" aria-label="Workflow example">
+            {flowCards.map((step, i) => (
+              <li key={step}>
+                <span>0{i + 1}</span>
+                {step}
+              </li>
+            ))}
+          </ol>
+          <ol className="workflow">
+            {workflow.map((step) => (
+              <li key={step.no}>
+                <h2>{step.title}</h2>
+                <p>{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <div className="board-wrap">
+          <nav className="section-index" aria-label="Sections">
+            {sections.map((item) => (
+              <a key={item.id} href={`#${item.id}`}>
+                <span>{item.no}</span>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="board">
+            <section id="capabilities" className="block">
+              <p className="kicker dark">Capabilities</p>
+              <h2 className="section-title">One mind. Every engineering job.</h2>
+              <p className="section-sub">
+                Atoma Labs is the independent research lab. Ares is the shared
+                mind — teachers pour in, throwaway copies run the job, a
+                re-ranker admits only what checks out.
+              </p>
+              <ul className="cap-list">
+                {capabilities.map((cap) => (
+                  <li key={cap.title}>
+                    <h3>{cap.title}</h3>
+                    <p>{cap.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section id="numbers" className="block">
+              <p className="kicker dark">Numbers</p>
+              <h2 className="section-title">The map that outlives the tab.</h2>
+              <p className="section-sub">
+                {live && status
+                  ? `Live governor on 127.0.0.1:${status.backend.port}. Governance ${status.governance.ok ? 'ok' : 'incomplete'}.`
+                  : link === 'loading'
+                    ? 'Checking 127.0.0.1:4810…'
+                    : 'Governor unreachable — dashboard below is the product shape, labelled demo.'}
+              </p>
+              <div className="dash">
+                <article>
+                  <p>Unified map</p>
+                  <p className="dash-sub">Basins in the judged mind</p>
+                  <p className="dash-num">12</p>
+                  <div className="bars" aria-hidden>
+                    {Array.from({ length: 7 }, (_, i) => (
+                      <b key={i} className={i === 3 ? 'is-hot' : undefined} style={{ height: `${30 + i * 8 + (i === 3 ? 24 : 0)}%` }} />
+                    ))}
+                  </div>
+                </article>
+                <article>
+                  <p>Manual work</p>
+                  <p className="dash-sub">Governed instead of hoped</p>
+                  <ul>
+                    <li>
+                      <span>Statutory controls</span>
+                      <strong>12</strong>
+                    </li>
+                    <li>
+                      <span>Dependencies up</span>
+                      <strong>
+                        {live ? `${upCount}/${deps.length}` : 'demo'}
+                      </strong>
+                    </li>
+                    <li>
+                      <span>Human gates</span>
+                      <strong>G12</strong>
+                    </li>
+                  </ul>
+                </article>
+                <article>
+                  <p>Ops throughput</p>
+                  <p className="dash-sub">Models distilled into one map</p>
+                  <p className="dash-num">5</p>
+                </article>
+                <article>
+                  <p>Resolution mode</p>
+                  <p className="dash-sub">Automaton vs human</p>
+                  <p>
+                    Agent <strong>gated</strong>
+                  </p>
+                  <p>
+                    Human <strong>required</strong>
+                  </p>
+                </article>
+                <article>
+                  <p>Governance</p>
+                  <p className="dash-sub">Chain + controls</p>
+                  <p className="dash-num">{live && status?.governance.ok ? 'ok' : '—'}</p>
+                </article>
+                <article>
+                  <p>oMLX path</p>
+                  <p className="dash-sub">Dead. Not a live seat.</p>
+                  <p className="dash-num">0</p>
+                </article>
+              </div>
+            </section>
+
+            <section id="features" className="block">
+              <p className="kicker dark">Features</p>
+              <h2 className="section-title">Stop rebuilding. Start building on it.</h2>
+              <p className="section-sub">
+                Shared map, isolated runs, proven promotion — so a job never
+                poisons the mind, and anything proven stays.
+              </p>
+              <ol className="feature-rows">
+                {features.map((feature) => (
+                  <li key={feature.no}>
+                    <span>{feature.no}</span>
+                    <div>
+                      <h3>{feature.title}</h3>
+                      <p>{feature.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section id="integrations" className="block">
+              <p className="kicker dark">Integrations</p>
+              <h2 className="section-title">Attach the mind to the stack you already run.</h2>
+              <p className="section-sub">
+                Research library, harness, governance, and your hardware — so
+                teachers can pour into the map, and jobs write real receipts.
+              </p>
+              <div className="tab-row" role="tablist" aria-label="Integration areas">
+                {integrations.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === item.id}
+                    className={tab === item.id ? 'is-active' : undefined}
+                    onClick={() => setTab(item.id)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+              <ul className="badge-row">
+                {current.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section id="pricing" className="block">
+              <p className="kicker dark">Pricing</p>
+              <h2 className="section-title">Simple plans that scale with you.</h2>
+              <p className="section-sub">
+                Free for contributors who add to the shared mind. Paid for
+                consume-only seats. Enterprise is custom hardware and policy.
+              </p>
+              <div className="cycle" role="group" aria-label="Billing cycle">
+                <button
+                  type="button"
+                  className={!annual ? 'is-active' : undefined}
+                  onClick={() => setAnnual(false)}
+                >
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  className={annual ? 'is-active' : undefined}
+                  onClick={() => setAnnual(true)}
+                >
+                  Annual
+                </button>
+              </div>
+              <div className="tier-grid">
+                <article>
+                  <h3>Contributor</h3>
+                  <p className="price">Free</p>
+                  <p>For builders who contribute to the shared mind.</p>
+                  <Link className="btn btn-cream" to="/waitlist">
+                    Get started
+                  </Link>
+                </article>
+                <article className="is-pro">
+                  <h3>Team</h3>
+                  <p className="price">{annual ? 'Soon' : 'Soon'}</p>
+                  <p>For teams running judged agentic work daily.</p>
+                  <Link className="btn btn-dark" to="/waitlist">
+                    Get started
+                  </Link>
+                </article>
+                <article>
+                  <h3>Enterprise</h3>
+                  <p className="price">Custom</p>
+                  <p>For orgs needing advanced security and scale.</p>
+                  <Link className="btn btn-cream" to="/waitlist">
+                    Talk to sales
+                  </Link>
+                </article>
+              </div>
+            </section>
+          </div>
         </div>
-      </section>
 
-      <section id="infrastructure" className="harness-theory story-beat">
-        <div className="story-content">
-        <div className="section-index"><span>2.0</span><i>AGENTIC HARNESS THEORY · CONTROL PLANE · EVIDENCE</i></div>
-        <div className="harness-head"><div className="split-head"><h2>Intelligence needs<br/><em>a harness.</em></h2><p className="side-copy">Models generate possibilities. A harness turns them into bounded work: typed tools, isolated agents, explicit handoffs, and receipts you can inspect.</p></div></div>
-        <div className="harness-hero"><div className="harness-visual"><div className="harness-visual-top"><span><i/> MADMIND / ORCHESTRATION MODEL</span><b>CONCEPTUAL SYSTEM · V1 FOUNDATION</b><span>RUN BRG-142</span></div><div className="harness-flow"><svg className="harness-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M19 20 C30 20 30 20 40 20 S59 20 69 20 S79 24 80 35 L80 65 S70 78 60 78 S40 78 30 78 S20 72 20 60 L20 35 S30 35 40 35"/><path d="M19 20 C20 40 42 46 50 58 M40 20 C45 38 48 48 50 58 M69 20 C62 38 57 48 50 58 M20 60 C31 61 42 59 50 58 M80 65 C69 62 57 59 50 58 M50 58 C50 72 50 79 50 90"/></svg><div className="harness-stage stage-intent"><small>01 / INTENT</small><b>Define the outcome</b><span>scope · constraints · policy</span></div><div className="harness-stage stage-plan"><small>02 / PLAN</small><b>Decompose the work</b><span>typed packets · dependencies</span></div><div className="harness-stage stage-replay"><small>03 / RESEARCH</small><b>Ground decisions</b><span>sources · context graph</span></div><div className="harness-stage stage-swarm"><small>04 / EXECUTE</small><b>Delegate in isolation</b><span>least privilege · worktrees</span></div><div className="harness-stage stage-check"><small>05 / VERIFY</small><b>Judge every handoff</b><span>contracts · adversarial gates</span></div><div className="harness-orbit"><span>MADMIND<br/>CONTROL<br/>PLANE</span><i/><i/><i/><i/><i/></div><div className="harness-stage stage-seal"><small>06 / REMEMBER</small><b>Seal the replay</b><span>event trail · signed receipts</span></div></div><div className="harness-visual-foot"><span>MODEL-AGNOSTIC · REPLAYABLE · EXPLICIT AUTHORITY</span><span><i/> GRAPH IS THE SOURCE OF RUN PROGRESS</span></div></div>
-          <aside className="harness-theory-aside"><span className="theory-label">THE HARNESS IS THE PRODUCT</span><h3>Give every agent a lane.<br/><em>Give every action a receipt.</em></h3><p>Atoma’s harness theory treats orchestration as an engineering system, with boundaries that are visible before execution and evidence that survives after it.</p><div className="theory-points"><div><b>01</b><span><strong>Constrain capability</strong><small>Tools and data are granted per task.</small></span></div><div><b>02</b><span><strong>Make flow observable</strong><small>Branches, status, and handoffs stay inspectable.</small></span></div><div><b>03</b><span><strong>Keep proof with work</strong><small>Replay links outcomes to inputs and decisions.</small></span></div></div><Link className="theory-link" to="/harness">Read the harness principles <span>↗</span></Link></aside></div>
-        <div className="harness-integrations"><span className="integration-label">COMPOSABLE SURFACES</span><div><b>MCP SERVERS</b><i>connect</i><b>SKILLS</b><i>shape</i><b>HARNESS</b><i>orchestrates</i><b>AGENT SWARM</b><i>produces</i><b>EVIDENCE GRAPH</b><span>●</span><b>REPLAY</b></div></div>
-        </div>
-      </section>
+        <section id="insights" className="block dark-block">
+          <p className="kicker lined">Insights</p>
+          <h2 className="section-title cream">
+            Articles, notes, updates, and latest case studies.
+          </h2>
+          <ul className="insight-list">
+            {posts.slice(0, 3).map((post) => (
+              <li key={post.slug}>
+                <p className="insight-cat">{post.category}</p>
+                <Link to={`/blog/${post.slug}`}>
+                  <h3>{post.title}</h3>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      <ArchitectureDeck />
-
-      {/* =========================================================================
-          4.0 Research Hub
-          ========================================================================= */}
-      <section id="research-hub" className="story-beat">
-        <div className="story-content">
-        <SectionHead
-          num="4.0"
-          label="Research Hub"
-          title="The state of AI,"
-          tone="one API call away."
-        >
-          Research, manuscripts, code examples, and plain-language explanations in one desk.
-          Search source-linked literature, inspect the paper, then work through an idea with an AI guide.
-        </SectionHead>
-        <div className="head-actions"><Link className="btn btn-white" to="/research-hub">Open Research Hub <span>↗</span></Link><span className="research-access-note">Curated library · source links attached</span></div>
-        <ResearchPreview />
-        </div>
-      </section>
-
-      {/* =========================================================================
-          5.0 What we're working on (Changelog)
-          ========================================================================= */}
-      <section id="changelog">
-        <SectionHead
-          num="5.0"
-          label="What we're working on"
-          title="Shipped in the open,"
-          tone="every week."
-        >
-          A concise build log tracks shipped work, active development, and
-          roadmap items with clear status labels.
-        </SectionHead>
-
-        <div className="log-list">
-          <div className="log-row">
-            <div className="ldate">Oct 24</div>
-            <div>
-              <h3>Brigade — interactive workspace preview</h3>
-              <p>Explore the guided run timeline, graph, code, and receipts. Runtime execution remains in development.</p>
+        <section id="faq" className="block dark-block">
+          <p className="kicker lined">FAQ</p>
+          <h2 className="section-title cream">Frequently asked questions.</h2>
+          <div className="faq-split">
+            <aside className="help-panel">
+              <p className="kicker">Still have questions? We are here to help</p>
+              <p>For complex workflows or custom integrations, talk to us.</p>
+              <Link className="btn btn-cream" to="/waitlist">
+                Contact us
+              </Link>
+            </aside>
+            <div className="faq-list">
+              {faqs.map((item, index) => (
+                <details
+                  key={item.q}
+                  open={openFaq === index}
+                  onToggle={(event) => {
+                    if (event.currentTarget.open) setOpenFaq(index)
+                  }}
+                >
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
             </div>
           </div>
-          <div className="log-row">
-            <div className="ldate">Oct 24</div>
-            <div>
-              <h3>Research Hub — curated source library</h3>
-              <p>Read source-linked editorial notes and ask the AI companion. A small curated catalog, with ingestion still planned.</p>
-            </div>
-          </div>
-          <div className="log-row">
-            <div className="ldate">In build</div>
-            <div>
-              <h3>Composable tools and harness design</h3>
-              <p>Typed tools, explicit authority, and inspectable evidence are the build direction.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          CTA Panel: Luminous panel on ellipse glow
-          ========================================================================= */}
-      <div className="cta-band">
-        <div className="cta-brand-lockup"><img src="/atoma-atom.png" alt=""/><span><b>ATOMA</b><small>ENGINEERING LABS</small></span></div>
-        <h2>Solo by choice.<br/><em>Built to go further.</em></h2>
-        <p>Put a research-grade engineering harness behind your next ambitious build.</p>
-        <div className="cta-actions">
-          <Link className="btn btn-white" to="/brigade">Explore the Brigade <span>↗</span></Link>
-          <Link className="btn btn-dark-cta" to="/contact">Build with Atoma</Link>
-        </div>
+        </section>
       </div>
-    </div>
-  );
+
+      <aside className="stage" aria-label="Interactive Atoma mind">
+        <div className="dots" />
+        <AtomaStage selected={openLayer} onSelect={setOpenLayer} />
+      </aside>
+    </main>
+  )
 }
